@@ -8,3 +8,11 @@ export default interface IRoute {
   name: string;
   component: any;
 }
+
+export type Transaction = {
+  id: string;
+  name: string;
+  amount: number;
+  income: boolean;
+  createdAt: string;
+};
