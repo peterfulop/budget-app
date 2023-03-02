@@ -4,7 +4,16 @@ export const TEXT: Text = {
   pages: {
     home: {
       name: { ENG: 'My Budget Planner' },
-      labels: {},
+      inputs: {
+        search: {
+          label: {
+            ENG: 'Search',
+          },
+          placeholder: {
+            ENG: 'Type to search ...',
+          },
+        },
+      },
     },
     notFound: {
       name: { ENG: 'Not Found' },
@@ -75,9 +84,6 @@ export const TEXT: Text = {
     },
     chart: {
       ENG: 'of budget spent',
-    },
-    HUF: {
-      ENG: 'HUF',
     },
   },
   ERRORS: {

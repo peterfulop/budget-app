@@ -16,3 +16,19 @@ export type Transaction = {
   income: boolean;
   createdAt: string;
 };
+
+export type CreateTransactionInput = {
+  name: string;
+  amount: number;
+  income: boolean;
+};
+
+export enum FilterState {
+  EXPENSES = 'EXPENSES',
+  INCOMES = 'INCOMES',
+  ALL = 'ALL',
+}
+
+export interface ITransactions {
+  refetch: () => Promise<void>;
+}

@@ -4,24 +4,33 @@ import './assets/index.css';
 import routes from './config/routes';
 
 const MainApp = styled.div({
-  maxWidth: '1206px',
-  margin: '0 auto',
+  display: 'flex',
+  justifyContent: 'center',
+});
+
+const Container = styled.div({
+  justifyContent: 'center',
+  maxWidth: '1200px',
+  padding: '20px',
+  width: '100%',
 });
 
 function App() {
   return (
     <MainApp>
-      <Routes>
-        {routes.map((route, index) => {
-          return (
-            <Route
-              key={index}
-              path={route.path}
-              element={<route.component />}
-            />
-          );
-        })}
-      </Routes>
+      <Container>
+        <Routes>
+          {routes.map((route, index) => {
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={<route.component />}
+              />
+            );
+          })}
+        </Routes>
+      </Container>
     </MainApp>
   );
 }
