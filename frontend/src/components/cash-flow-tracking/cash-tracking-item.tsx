@@ -3,7 +3,7 @@ import { theme } from '../../theme';
 import { Currency } from '../../translate/translate.scema';
 import { thousandSeparator } from '../../utils/thousand-separator';
 
-const CashTrackingBox = styled.div({
+const TrackingItem = styled.div({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -29,18 +29,18 @@ const CashTrackingBox = styled.div({
   },
 });
 
-type CashTrackingBoxItemProps = {
+type CashFlowTrackingItemProps = {
   title: string;
   amount: number;
   color?: string;
 };
 
-export const CashTrackingBoxItem = (props: CashTrackingBoxItemProps) => {
+export const CashFlowTrackingItem = (props: CashFlowTrackingItemProps) => {
   const { title, amount, color } = props;
   return (
-    <CashTrackingBox style={{ background: color }}>
+    <TrackingItem style={{ background: color }}>
       <p>{title}</p>
       <h4>{thousandSeparator(amount, Currency.HUF)}</h4>
-    </CashTrackingBox>
+    </TrackingItem>
   );
 };

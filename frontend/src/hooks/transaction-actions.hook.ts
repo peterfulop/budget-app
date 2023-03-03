@@ -22,7 +22,6 @@ export const useTransactionActions = () => {
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
-      console.log(error);
       setError(error.message as string);
     }
   };
@@ -36,7 +35,6 @@ export const useTransactionActions = () => {
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
-      console.log(error);
       setError(error.message as string);
     }
   };

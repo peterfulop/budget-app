@@ -1,10 +1,12 @@
 import styled from 'styled-components';
-import { CashTrackings } from '../components/cash-tracking-box/cash-trackings';
+import { CashFlowTrackings } from '../components/cash-flow-tracking/cash-trackings';
 import { DougnutChart } from '../components/chart/chart';
 import { Content } from '../components/content/content';
 import { Header } from '../components/header/header';
 import { useFetchTransactions } from '../hooks/fetch-transactions.hook';
 import { breakPoints } from '../theme';
+import { translate } from '../translate/translate';
+import { TEXT } from '../translate/translate-objects';
 
 const MainComponent = styled.main({
   display: 'flex',
@@ -20,19 +22,22 @@ const Sidebar = styled.section({
 });
 
 export const HomePage = () => {
-  const { data, loading, getTransactions } = useFetchTransactions();
+  const { transactions, loading, error, getTransactions } =
+    useFetchTransactions();
 
   return (
     <>
       <Header />
-      {!loading && (
+      {error && <p>{error}</p>}
+      {loading && <p>{translate(TEXT.general.fetchingData)}</p>}
+      {!error && !loading && (
         <>
-          <CashTrackings transactions={data} />
+          <CashFlowTrackings transactions={transactions} />
           <MainComponent>
             <Sidebar>
-              <DougnutChart transactions={data} />
+              <DougnutChart transactions={transactions} />
             </Sidebar>
-            <Content transactions={data} refetch={getTransactions} />
+            <Content transactions={transactions} refetch={getTransactions} />
           </MainComponent>
         </>
       )}
