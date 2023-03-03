@@ -5,7 +5,7 @@ import { Transaction } from '../types';
 export const useFetchTransactions = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<string[] | null>(null);
 
   useEffect(() => {
     getTransactions();
@@ -13,6 +13,7 @@ export const useFetchTransactions = () => {
 
   const getTransactions = async () => {
     setLoading(true);
+    setErrors(null);
     try {
       const res = await axios.get('http://localhost:5100/api/transactions');
       if (res.data) {
@@ -21,14 +22,14 @@ export const useFetchTransactions = () => {
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
-      setError(error.message as string);
+      setErrors(error.response.data.errors);
     }
   };
 
   return {
     transactions,
     loading,
-    error,
+    errors,
     getTransactions,
   };
 };

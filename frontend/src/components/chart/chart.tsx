@@ -64,7 +64,9 @@ export const DougnutChart = (props: { transactions: Transaction[] }) => {
   };
 
   let percentage = 100;
-  if (budget !== 0) {
+  if (budget === 0 && spentSoFar === 0 && remaining === 0) {
+    percentage = 0;
+  } else if (budget !== 0) {
     percentage = Math.ceil((spentSoFar / budget) * 100);
   }
 

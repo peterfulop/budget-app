@@ -12,7 +12,7 @@ import { thousandSeparator } from '../../utils/thousand-separator';
 export const ListItem = styled.div({
   display: 'flex',
   justifyContent: 'space-between',
-  padding: '13px 24px',
+  padding: '15px 24px',
   borderBottom: `1px solid ${theme.colors.lightGray}`,
   p: {
     fontStyle: 'normal',
@@ -20,6 +20,9 @@ export const ListItem = styled.div({
     fontSize: '18px',
     lineHeight: '24px',
     fontFamily: theme.fonts.alegreyaSans,
+  },
+  ':last-of-type': {
+    borderBottom: 'none',
   },
 });
 
@@ -53,6 +56,7 @@ const DeleteBtn = styled.div({
   borderRadius: '50%',
   background: theme.colors.darkGray,
   height: '22px',
+  cursor: 'pointer',
 });
 
 const DeleteConfirmationBox = styled.div({
@@ -62,15 +66,16 @@ const DeleteConfirmationBox = styled.div({
   gap: '1rem',
   width: '100%',
   button: {
+    cursor: 'pointer',
     border: 'none',
     width: '100%',
     textAlign: 'center',
     borderRadius: '20px',
-    padding: '6px 10px',
+    padding: '15px 10px',
     color: 'white',
     fontStyle: ' normal',
     fontWeight: '700',
-    fontSize: '14px',
+    fontSize: '16px',
     lineHeight: '12px',
     fontFamily: theme.fonts.alegreyaSans,
   },
@@ -101,12 +106,13 @@ export const TransactionListItem: FC<ITransactionListItem> = ({
   const { data, deleteTransaction } = useTransactionActions();
 
   const handleClick = async () => {
+    setDeleteConfirmation(false);
     await deleteTransaction({ id });
-    if (data) await refetch();
+    await refetch();
   };
 
   return (
-    <ListItem>
+    <ListItem style={{ padding: `${deleteConfirmation ? '6px 24px' : ''}` }}>
       {!deleteConfirmation && (
         <ListItemData>
           <p>{name}</p>
@@ -125,10 +131,18 @@ export const TransactionListItem: FC<ITransactionListItem> = ({
         </DeleteBtn>
       ) : (
         <DeleteConfirmationBox>
-          <button id='confirm-delete' onClick={handleClick}>
+          <button
+            type='button'
+            id='confirm-delete'
+            onClick={(e) => {
+              e.preventDefault();
+              handleClick();
+            }}
+          >
             {translate(TEXT.buttons.delete)}
           </button>
           <button
+            type='button'
             id='withdraw-delete'
             onClick={() => setDeleteConfirmation(false)}
           >

@@ -9,10 +9,10 @@ import { ListItem, TransactionListItem } from './transaction-list-tem';
 const List = styled.div({
   borderRadius: '4px',
   border: `1px solid ${theme.colors.lightGray}`,
-  ':last-of-type': {
-    borderBottom: 'none',
-  },
+
   margin: '16px 0',
+  maxHeight: '495px',
+  overflow: 'auto',
 });
 
 interface ITransactionList extends ITransactions {

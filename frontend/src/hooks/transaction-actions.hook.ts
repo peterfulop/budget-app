@@ -3,31 +3,33 @@ import { useState } from 'react';
 import { CreateTransactionInput, Transaction } from '../types';
 
 export const useTransactionActions = () => {
-  const [data, setData] = useState<Transaction[]>([]);
+  const [data, setData] = useState<Transaction>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<string[] | null>(null);
 
   const createTransaction = async (
     createTransactionInput: CreateTransactionInput
   ) => {
     setLoading(true);
+    setErrors(null);
     try {
       const res = await axios.post(
         'http://localhost:5100/api/transactions/create',
         createTransactionInput
       );
-      if (res.data) {
-        setData(res.data.data);
+      if (res.data.transaction) {
+        setLoading(false);
+        setData(res.data.transaction);
       }
-      setLoading(false);
     } catch (error: any) {
       setLoading(false);
-      setError(error.message as string);
+      setErrors(error.response.data.errors);
     }
   };
 
   const deleteTransaction = async (input: { id: string }) => {
     setLoading(true);
+    setErrors([]);
     try {
       await axios.delete(
         `http://localhost:5100/api/transactions/delete/${input.id}`
@@ -35,14 +37,15 @@ export const useTransactionActions = () => {
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
-      setError(error.message as string);
+      setErrors(error.response.data.errors);
     }
   };
 
   return {
     data,
     loading,
-    error,
+    errors: errors,
+    setAlerts: setErrors,
     createTransaction,
     deleteTransaction,
   };
