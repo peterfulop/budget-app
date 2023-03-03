@@ -1,32 +1,9 @@
 import { FC } from 'react';
-import styled from 'styled-components';
-import { theme } from '../../theme';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
 import { FilterState } from '../../types';
+import { FilterSection, SearchInput } from './cash-flow-filter.styled';
 import { FilterButtonGroup } from './filter-button-group';
-
-const FilterSection = styled.div({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  margin: '36px 0 27px 0',
-  gap: '30px',
-  flexWrap: 'wrap',
-});
-
-const SearchInput = styled.input({
-  flex: '1',
-  borderRadius: '4px',
-  fontStyle: 'normal',
-  fontWeight: '400',
-  fontSize: '14px',
-  lineHeight: '20px',
-  padding: '6px 15px',
-  color: theme.colors.darkGray,
-  fontFamily: theme.fonts.alegreyaSans,
-  border: `1px solid ${theme.colors.lightGray}`,
-});
 
 interface ICashflowFilter {
   filterState: FilterState;

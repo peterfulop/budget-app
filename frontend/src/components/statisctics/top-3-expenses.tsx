@@ -1,36 +1,10 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { breakPoints } from '../../theme';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
 import { Currency } from '../../translate/translate.scema';
 import { Transaction } from '../../types';
 import { thousandSeparator } from '../../utils/thousand-separator';
-import { StatContainer } from './most-expensive-transaction';
-
-const TopListContainer = styled(StatContainer)({
-  flexDirection: 'column',
-});
-
-const Top3List = styled.div({
-  display: 'flex',
-  width: '100%',
-  justifyContent: 'space-between',
-  marginTop: '.5rem',
-  '.amount': {
-    '&:before': {
-      content: '":\t"',
-    },
-  },
-  '.index': {
-    '&:after': {
-      content: '".\t"',
-    },
-  },
-  [`@media screen and (max-width: ${breakPoints.sm})`]: {
-    flexDirection: 'column',
-  },
-});
+import { Top3List, TopListContainer } from './statistic.styled';
 
 type Top3ExpensesProps = {
   transactions: Transaction[];

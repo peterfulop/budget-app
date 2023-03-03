@@ -18,6 +18,7 @@ const MainComponent = styled.main({
     flexDirection: 'column',
   },
 });
+
 const Sidebar = styled.section({
   width: 'calc(1140px / 3)',
   [`@media screen and (max-width: ${breakPoints.lg})`]: {

@@ -1,19 +1,9 @@
 import { FC } from 'react';
-import styled from 'styled-components';
-import { theme } from '../../theme';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
 import { ITransactions, Transaction } from '../../types';
-import { ListItem, TransactionListItem } from './transaction-list-tem';
-
-const List = styled.div({
-  borderRadius: '4px',
-  border: `1px solid ${theme.colors.lightGray}`,
-
-  margin: '16px 0',
-  maxHeight: '495px',
-  overflow: 'auto',
-});
+import { TransactionListItem } from './transaction-list-tem';
+import { List, ListItem } from './transaction-list.styled';
 
 interface ITransactionList extends ITransactions {
   transactions: Transaction[];

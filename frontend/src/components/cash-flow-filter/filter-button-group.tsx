@@ -1,52 +1,8 @@
 import { FC } from 'react';
-import styled from 'styled-components';
-import { breakPoints, theme } from '../../theme';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
 import { FilterState } from '../../types';
-
-const ButtonGroup = styled.div({
-  flex: '1',
-  display: 'flex',
-  justifyContent: 'space-between',
-  button: {
-    flex: '1',
-    border: 'none',
-    cursor: 'pointer',
-    padding: '5.5px 15px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    background: 'white',
-    textTransform: 'uppercase',
-    fontStyle: 'normal',
-    fontWeight: '900',
-    fontSize: '18px',
-    lineHeight: '21px',
-    textAlign: 'center',
-    letterSpacing: '2px',
-    fontFamily: theme.fonts.alegreyaSans,
-    borderTop: `1px solid ${theme.colors.darkGray}`,
-    borderBottom: `1px solid ${theme.colors.darkGray}`,
-    ':first-of-type': {
-      borderTopLeftRadius: '4px',
-      borderBottomLeftRadius: '4px',
-      border: `1px solid ${theme.colors.darkGray}`,
-    },
-    ':last-of-type': {
-      borderTopRightRadius: '4px',
-      borderBottomRightRadius: '4px',
-      border: `1px solid ${theme.colors.darkGray}`,
-    },
-  },
-  '.active': {
-    background: theme.colors.darkGray,
-    color: 'white',
-  },
-  [`@media screen and (max-width: ${breakPoints.sm})`]: {
-    width: '100%',
-  },
-});
+import { ButtonGroup } from './cash-flow-filter.styled';
 
 interface IFilterButtonGroup {
   filterState: FilterState;
