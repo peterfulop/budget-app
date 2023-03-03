@@ -45,7 +45,7 @@ export const DougnutChart = (props: { transactions: Transaction[] }) => {
           data={data}
           style={{
             padding: '1rem',
-            width: '382px',
+            width: '300px',
           }}
         />
       </div>

@@ -4,7 +4,7 @@ import { TEXT } from '../../translate/translate-objects';
 import { Currency } from '../../translate/translate.scema';
 import { Transaction } from '../../types';
 import { thousandSeparator } from '../../utils/thousand-separator';
-import { MostExpensiceContainer } from './statistic.styled';
+import { MostExpensiveContainer } from './statistic.styled';
 
 type MostExpensiveTransactionProps = {
   transactions: Transaction[];
@@ -31,7 +31,7 @@ export const MostExpensiveTransaction = (
   }, [transactions]);
 
   return (
-    <MostExpensiceContainer>
+    <MostExpensiveContainer>
       <p>{translate(TEXT.labels.mostExpensive)}</p>
       {mostExpensiveAction ? (
         <p>
@@ -43,6 +43,6 @@ export const MostExpensiveTransaction = (
       ) : (
         <small>{translate(TEXT.general.noExpenses)}</small>
       )}
-    </MostExpensiceContainer>
+    </MostExpensiveContainer>
   );
 };

@@ -72,7 +72,7 @@ export const DeleteConfirmationBox = styled.div({
     width: '100%',
     textAlign: 'center',
     borderRadius: '20px',
-    padding: '15px 10px',
+    padding: '12px 10px',
     color: 'white',
     fontStyle: ' normal',
     fontWeight: '700',

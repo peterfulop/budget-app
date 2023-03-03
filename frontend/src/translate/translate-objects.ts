@@ -108,7 +108,7 @@ export const TEXT: Text = {
       ENG: 'Most expensive action ever',
     },
     top3: {
-      ENG: 'Top 3 expenses',
+      ENG: 'Top 3 ',
     },
     chartTitle: {
       ENG: 'Chart',

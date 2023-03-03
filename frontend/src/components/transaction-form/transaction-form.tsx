@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import { useTransactionActions } from '../../hooks/transaction-actions.hook';
+import { useCreateTransaction } from '../../hooks/create-transaction.hook';
 import { useForm } from '../../hooks/use-form.hook';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
@@ -14,11 +14,9 @@ import {
 } from './transaction-form.styled';
 import { yupValidateForm } from './validation/transaction.schema';
 
-interface ITransactionForm extends ITransactions {}
-
-export const TransactionForm: FC<ITransactionForm> = ({ refetch }) => {
+export const TransactionForm: FC<ITransactions> = ({ refetch }) => {
   const { loading, errors, data, createTransaction, setErrors } =
-    useTransactionActions();
+    useCreateTransaction();
 
   const { onChange, values } = useForm({
     initialState: { name: '', amount: '' },
@@ -28,9 +26,11 @@ export const TransactionForm: FC<ITransactionForm> = ({ refetch }) => {
     input: CreateTransactionInput
   ): Promise<CreateTransactionInput | void> => {
     setErrors(null);
-    const { name, amount, income } = input;
-    if (!name || !amount || income === undefined) {
-      return setErrors(['All fields are required!']);
+    const { name, amount } = input;
+    if (!name || !amount) {
+      return setErrors([
+        translate(TEXT.transactionForm.validationErrors.allRequired),
+      ]);
     }
     const { data, error } = await yupValidateForm(input);
     if (error) {

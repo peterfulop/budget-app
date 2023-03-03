@@ -6,7 +6,7 @@ import routes from './config/routes';
 const MainApp = styled.div({
   margin: '0 auto',
   maxWidth: '1240px',
-  padding: '20px',
+  padding: '0 20px',
 });
 
 function App() {

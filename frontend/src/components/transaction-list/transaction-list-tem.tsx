@@ -1,6 +1,6 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import DeleteIcon from '../../assets/delete-icon.svg';
-import { useTransactionActions } from '../../hooks/transaction-actions.hook';
+import { useDeleteTransaction } from '../../hooks/delete-transaction.hook';
 import { theme } from '../../theme';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
@@ -31,16 +31,21 @@ export const TransactionListItem: FC<ITransactionListItem> = ({
 }) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState<boolean>(false);
 
-  const { data, deleteTransaction } = useTransactionActions();
+  const { success, loading, deleteTransaction } = useDeleteTransaction();
 
   const handleClick = async () => {
     setDeleteConfirmation(false);
     await deleteTransaction({ id });
-    await refetch();
   };
 
+  useEffect(() => {
+    if (!loading && success) {
+      refetch();
+    }
+  }, [success]);
+
   return (
-    <ListItem style={{ padding: `${deleteConfirmation ? '6px 24px' : ''}` }}>
+    <ListItem style={{ padding: `${deleteConfirmation ? '9px 24px' : ''}` }}>
       {!deleteConfirmation && (
         <ListItemData>
           <p>{name}</p>

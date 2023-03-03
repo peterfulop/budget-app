@@ -22,7 +22,7 @@ export const StatContainer = styled.div({
   },
 });
 
-export const MostExpensiceContainer = styled(StatContainer)({
+export const MostExpensiveContainer = styled(StatContainer)({
   span: {
     '&:before': {
       content: '": "',
@@ -32,6 +32,9 @@ export const MostExpensiceContainer = styled(StatContainer)({
 
 export const TopListContainer = styled(StatContainer)({
   flexDirection: 'column',
+  '#filter-state': {
+    textTransform: 'lowercase',
+  },
 });
 
 export const Top3List = styled.div({

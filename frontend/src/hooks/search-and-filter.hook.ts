@@ -18,34 +18,28 @@ export const useSearchAndFilterTransactions = (
 
   useEffect(() => {
     switchFilterState();
-  }, [searchKeyword, filterState]);
+  }, [transactions, searchKeyword, filterState]);
 
   const switchFilterState = () => {
-    const searchResult = searchByUserInput();
-    const preFiltered = searchResult ? searchResult : transactions;
-
-    if (preFiltered)
-      switch (filterState) {
-        case FilterState.EXPENSES:
-          {
-            const filtered = preFiltered.filter((trans) => !trans.income);
-            setFilteredTransactions(filtered);
-          }
-          break;
-        case FilterState.INCOMES:
-          {
-            const filtered = preFiltered.filter((trans) => trans.income);
-            setFilteredTransactions(filtered);
-          }
-          break;
-        case FilterState.ALL:
-          setFilteredTransactions(preFiltered);
-          break;
-      }
+    let filtered: Transaction[] = [];
+    switch (filterState) {
+      case FilterState.EXPENSES:
+        filtered = transactions.filter((trans) => !trans.income);
+        break;
+      case FilterState.INCOMES:
+        filtered = transactions.filter((trans) => trans.income);
+        break;
+      case FilterState.ALL:
+        filtered = [...transactions];
+        break;
+    }
+    const searchResult = searchByUserInput(filtered);
+    const preFiltered = searchResult ? searchResult : filtered;
+    setFilteredTransactions(preFiltered);
   };
 
-  const searchByUserInput = () => {
-    if (transactions && searchKeyword) {
+  const searchByUserInput = (transactions: Transaction[]) => {
+    if (searchKeyword) {
       const searchByName = transactions.filter((trans) => {
         return trans.name.toLowerCase().includes(searchKeyword.toLowerCase());
       });

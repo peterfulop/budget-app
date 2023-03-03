@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
 import { FilterState } from '../../types';
@@ -26,6 +26,11 @@ export const FilterButtonGroup: FC<IFilterButtonGroup> = ({
     setFilterState(state);
   };
 
+  useEffect(() => {
+    const ALLButton = document.getElementById(filterState);
+    ALLButton?.classList.add('active');
+  }, [filterState]);
+
   return (
     <ButtonGroup>
       <button
@@ -43,7 +48,7 @@ export const FilterButtonGroup: FC<IFilterButtonGroup> = ({
         {translate(TEXT.buttons.incomes)}
       </button>
       <button
-        className='filter-state-btn active'
+        className='filter-state-btn'
         id={FilterState.ALL}
         onClick={handleClick}
       >

@@ -2,23 +2,22 @@ import { useEffect, useState } from 'react';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
 import { Currency } from '../../translate/translate.scema';
-import { Transaction } from '../../types';
+import { FilterState, Transaction } from '../../types';
 import { thousandSeparator } from '../../utils/thousand-separator';
 import { Top3List, TopListContainer } from './statistic.styled';
 
-type Top3ExpensesProps = {
+type Top3ActionProps = {
   transactions: Transaction[];
+  filterState: FilterState;
 };
 
-export const Top3Expenses = (props: Top3ExpensesProps) => {
-  const { transactions } = props;
+export const Top3Action = (props: Top3ActionProps) => {
+  const { transactions, filterState } = props;
   const [topExpenses, setTopExpenses] = useState<Transaction[]>([]);
 
   useEffect(() => {
     if (transactions) {
-      const sortedExpenses = transactions
-        .filter((trans) => !trans.income)
-        .sort((a, b) => b.amount - a.amount);
+      const sortedExpenses = transactions.sort((a, b) => b.amount - a.amount);
       if (sortedExpenses.length > 0) {
         if (sortedExpenses.length > 3) {
           const slicedExpenses = sortedExpenses.slice(0, 3);
@@ -26,13 +25,18 @@ export const Top3Expenses = (props: Top3ExpensesProps) => {
         } else {
           setTopExpenses(sortedExpenses);
         }
+      } else {
+        setTopExpenses([]);
       }
     }
   }, [transactions]);
 
   return (
     <TopListContainer>
-      <p>{translate(TEXT.labels.top3)}</p>
+      <p>
+        {translate(TEXT.labels.top3)}
+        <span id='filter-state'>{filterState}</span>
+      </p>
       {topExpenses.length > 0 ? (
         <Top3List
           style={{
