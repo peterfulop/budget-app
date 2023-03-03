@@ -27,8 +27,8 @@ export const FilterButtonGroup: FC<IFilterButtonGroup> = ({
   };
 
   useEffect(() => {
-    const ALLButton = document.getElementById(filterState);
-    ALLButton?.classList.add('active');
+    const button = document.getElementById(filterState);
+    button?.classList.add('active');
   }, [filterState]);
 
   return (
