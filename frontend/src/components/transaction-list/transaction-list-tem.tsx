@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 import DeleteIcon from '../../assets/delete-icon.svg';
 import { useTransactionActions } from '../../hooks/transaction-actions.hook';
@@ -23,6 +23,13 @@ export const ListItem = styled.div({
   },
 });
 
+const ListItemData = styled.div({
+  display: 'flex',
+  justifyContent: 'space-between',
+  width: '100%',
+  marginRight: '20px',
+});
+
 const AmountBox = styled.div({
   display: 'flex',
   alignItems: 'center',
@@ -34,25 +41,45 @@ const AmountBox = styled.div({
   fontWeight: '700',
   fontSize: '14px',
   lineHeight: '12px',
-  marginRight: '20px',
   background: theme.colors.red,
   fontFamily: theme.fonts.alegreyaSans,
 });
 
-const DeleteBtn = styled.button({
+const DeleteBtn = styled.div({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  border: 'none',
   padding: '7px',
   borderRadius: '50%',
   background: theme.colors.darkGray,
   height: '22px',
 });
 
-const ListItemAction = styled.div({
+const DeleteConfirmationBox = styled.div({
   display: 'flex',
   justifyContent: 'space-between',
+  alignItems: 'center',
+  gap: '1rem',
+  width: '100%',
+  button: {
+    border: 'none',
+    width: '100%',
+    textAlign: 'center',
+    borderRadius: '20px',
+    padding: '6px 10px',
+    color: 'white',
+    fontStyle: ' normal',
+    fontWeight: '700',
+    fontSize: '14px',
+    lineHeight: '12px',
+    fontFamily: theme.fonts.alegreyaSans,
+  },
+  '#withdraw-delete': {
+    background: theme.colors.darkGray,
+  },
+  '#confirm-delete': {
+    background: theme.colors.red,
+  },
 });
 
 interface ITransactionListItem extends ITransactions {
@@ -69,6 +96,8 @@ export const TransactionListItem: FC<ITransactionListItem> = ({
   income,
   refetch,
 }) => {
+  const [deleteConfirmation, setDeleteConfirmation] = useState<boolean>(false);
+
   const { data, deleteTransaction } = useTransactionActions();
 
   const handleClick = async () => {
@@ -78,19 +107,35 @@ export const TransactionListItem: FC<ITransactionListItem> = ({
 
   return (
     <ListItem>
-      <p>{name}</p>
-      <ListItemAction>
-        <AmountBox
-          style={{
-            background: `${income ? theme.colors.green : theme.colors.red}`,
-          }}
-        >
-          {thousandSeparator(amount, Currency.HUF)}
-        </AmountBox>
-        <DeleteBtn onClick={handleClick}>
+      {!deleteConfirmation && (
+        <ListItemData>
+          <p>{name}</p>
+          <AmountBox
+            style={{
+              background: `${income ? theme.colors.green : theme.colors.red}`,
+            }}
+          >
+            {thousandSeparator(amount, Currency.HUF)}
+          </AmountBox>
+        </ListItemData>
+      )}
+      {!deleteConfirmation ? (
+        <DeleteBtn onClick={() => setDeleteConfirmation(true)}>
           <img src={DeleteIcon} alt={translate(TEXT.buttons.delete)} />
         </DeleteBtn>
-      </ListItemAction>
+      ) : (
+        <DeleteConfirmationBox>
+          <button id='confirm-delete' onClick={handleClick}>
+            {translate(TEXT.buttons.delete)}
+          </button>
+          <button
+            id='withdraw-delete'
+            onClick={() => setDeleteConfirmation(false)}
+          >
+            {translate(TEXT.buttons.back)}
+          </button>
+        </DeleteConfirmationBox>
+      )}
     </ListItem>
   );
 };
