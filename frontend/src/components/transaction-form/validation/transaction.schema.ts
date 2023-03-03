@@ -8,7 +8,7 @@ export const transactionSchema = yup.object().shape({
     .string()
     .trim()
     .matches(
-      /^[a-zA-Z ]*$/,
+      /^[A-zÀ-ú ]*$/,
       translate(TEXT.transactionForm.validationErrors.nameOnlyText)
     )
     .required(translate(TEXT.transactionForm.validationErrors.nameRequired)),
