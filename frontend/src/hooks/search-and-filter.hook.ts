@@ -1,22 +1,24 @@
 import { useEffect, useState } from 'react';
 import { FilterState, Transaction } from '../types';
 
-interface IUseFilterTransactionProps {
-  filterState: FilterState;
+type SearchAndFilterTransactionProps = {
   transactions: Transaction[];
-  searchText?: string;
-}
+};
 
-export const useFilterTransaction = (props: IUseFilterTransactionProps) => {
-  const { filterState, transactions, searchText } = props;
+export const useSearchAndFilterTransactions = (
+  props: SearchAndFilterTransactionProps
+) => {
+  const { transactions } = props;
 
+  const [filterState, setFilterState] = useState<FilterState>(FilterState.ALL);
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [filteredTransactions, setFilteredTransactions] = useState<
     Transaction[]
   >([]);
 
   useEffect(() => {
     switchFilterState();
-  }, [searchText, filterState]);
+  }, [searchKeyword, filterState]);
 
   const switchFilterState = () => {
     const searchResult = searchByUserInput();
@@ -43,21 +45,24 @@ export const useFilterTransaction = (props: IUseFilterTransactionProps) => {
   };
 
   const searchByUserInput = () => {
-    if (transactions && searchText) {
+    if (transactions && searchKeyword) {
       const searchByName = transactions.filter((trans) => {
-        return trans.name.toLowerCase().includes(searchText.toLowerCase());
+        return trans.name.toLowerCase().includes(searchKeyword.toLowerCase());
       });
       const searchByAmount = transactions.filter((trans) => {
         return trans.amount
           .toString()
           .toLowerCase()
-          .includes(searchText.toLowerCase());
+          .includes(searchKeyword.toLowerCase());
       });
       return [...searchByName, ...searchByAmount];
     }
   };
 
   return {
+    filterState,
     filteredTransactions,
+    setFilterState,
+    setSearchKeyword,
   };
 };

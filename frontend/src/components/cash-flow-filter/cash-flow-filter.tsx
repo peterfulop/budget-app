@@ -31,16 +31,16 @@ const SearchInput = styled.input({
 interface ICashflowFilter {
   filterState: FilterState;
   setFilterState: React.Dispatch<React.SetStateAction<FilterState>>;
-  setSearchText: React.Dispatch<React.SetStateAction<string>>;
+  setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const CashflowFilter: FC<ICashflowFilter> = ({
   filterState,
   setFilterState,
-  setSearchText,
+  setSearchKeyword,
 }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchText(e.target.value);
+    setSearchKeyword(e.target.value);
   };
 
   return (
