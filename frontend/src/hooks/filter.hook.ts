@@ -22,27 +22,28 @@ export const useFilterTransaction = (props: IUseFilterTransactionProps) => {
     const searchResult = searchByUserInput();
     const preFiltered = searchResult ? searchResult : transactions;
 
-    switch (filterState) {
-      case FilterState.EXPENSES:
-        {
-          const filtered = preFiltered.filter((trans) => !trans.income);
-          setFilteredTransactions(filtered);
-        }
-        break;
-      case FilterState.INCOMES:
-        {
-          const filtered = preFiltered.filter((trans) => trans.income);
-          setFilteredTransactions(filtered);
-        }
-        break;
-      case FilterState.ALL:
-        setFilteredTransactions(preFiltered);
-        break;
-    }
+    if (preFiltered)
+      switch (filterState) {
+        case FilterState.EXPENSES:
+          {
+            const filtered = preFiltered.filter((trans) => !trans.income);
+            setFilteredTransactions(filtered);
+          }
+          break;
+        case FilterState.INCOMES:
+          {
+            const filtered = preFiltered.filter((trans) => trans.income);
+            setFilteredTransactions(filtered);
+          }
+          break;
+        case FilterState.ALL:
+          setFilteredTransactions(preFiltered);
+          break;
+      }
   };
 
   const searchByUserInput = () => {
-    if (searchText) {
+    if (transactions && searchText) {
       const searchByName = transactions.filter((trans) => {
         return trans.name.toLowerCase().includes(searchText.toLowerCase());
       });

@@ -61,10 +61,12 @@ export const TEXT: Text = {
     back: { ENG: 'back' },
   },
   general: {
-    loading: { ENG: 'loading...' },
-    fetchingData: { ENG: 'fetching data...' },
+    loading: { ENG: 'loading ...' },
+    fetchingData: { ENG: 'fetching data ...' },
     serverError: { ENG: 'Server Error. Something went wrong! :( ' },
     confirmDelete: { ENG: 'Dou you really want to delete this item?' },
+    noExpenses: { ENG: 'No expenses yet ...' },
+    noTransactions: { ENG: 'No transactions yet ...' },
   },
   labels: {
     budget: {
@@ -82,7 +84,10 @@ export const TEXT: Text = {
     top3: {
       ENG: 'Top 3 expenses',
     },
-    chart: {
+    chartTitle: {
+      ENG: 'Chart',
+    },
+    chartPercentage: {
       ENG: 'of budget spent',
     },
   },

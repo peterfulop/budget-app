@@ -1,29 +1,34 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../theme';
+import { translate } from '../../translate/translate';
+import { TEXT } from '../../translate/translate-objects';
 import { ITransactions, Transaction } from '../../types';
-import { CashFlowListItem } from './cashflow-list-tem';
+import { ListItem, TransactionListItem } from './transaction-list-tem';
 
 const List = styled.div({
-  border: `1px solid ${theme.colors.lightGray}`,
   borderRadius: '4px',
+  border: `1px solid ${theme.colors.lightGray}`,
   ':last-of-type': {
     borderBottom: 'none',
   },
   margin: '16px 0',
 });
 
-interface ICashFlowList extends ITransactions {
+interface ITransactionList extends ITransactions {
   transactions: Transaction[];
 }
 
-export const CashFlowList: FC<ICashFlowList> = ({ transactions, refetch }) => {
+export const TransactionList: FC<ITransactionList> = ({
+  transactions,
+  refetch,
+}) => {
   return (
     <List>
-      {transactions.length ? (
+      {transactions?.length ? (
         transactions.map((trans, index) => {
           return (
-            <CashFlowListItem
+            <TransactionListItem
               key={index}
               id={trans.id}
               name={trans.name}
@@ -34,7 +39,9 @@ export const CashFlowList: FC<ICashFlowList> = ({ transactions, refetch }) => {
           );
         })
       ) : (
-        <p>no list items yet...</p>
+        <ListItem>
+          <p>{translate(TEXT.general.noTransactions)}</p>
+        </ListItem>
       )}
     </List>
   );

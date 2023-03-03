@@ -6,18 +6,18 @@ import { TEXT } from '../../translate/translate-objects';
 import { FilterState } from '../../types';
 
 const ButtonGroup = styled.div({
+  flex: '1',
   display: 'flex',
   justifyContent: 'space-between',
   button: {
     flex: '1',
     border: 'none',
     cursor: 'pointer',
-    padding: '5.5px 25px',
+    padding: '5.5px 15px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     background: 'white',
-    fontFamily: theme.fonts.alegreyaSans,
     textTransform: 'uppercase',
     fontStyle: 'normal',
     fontWeight: '900',
@@ -25,6 +25,7 @@ const ButtonGroup = styled.div({
     lineHeight: '21px',
     textAlign: 'center',
     letterSpacing: '2px',
+    fontFamily: theme.fonts.alegreyaSans,
     borderTop: `1px solid ${theme.colors.darkGray}`,
     borderBottom: `1px solid ${theme.colors.darkGray}`,
     ':first-of-type': {
@@ -36,9 +37,6 @@ const ButtonGroup = styled.div({
       borderTopRightRadius: '4px',
       borderBottomRightRadius: '4px',
       border: `1px solid ${theme.colors.darkGray}`,
-    },
-    [`@media screen and (max-width: ${breakPoints.sm})`]: {
-      padding: '5.5px 0px',
     },
   },
   '.active': {

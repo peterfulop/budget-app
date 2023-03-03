@@ -7,26 +7,32 @@ import { Currency } from '../../translate/translate.scema';
 import { Transaction } from '../../types';
 import { thousandSeparator } from '../../utils/thousand-separator';
 
-const TransactionDiv = styled.div({
+export const StatContainer = styled.div({
   display: 'flex',
   justifyContent: 'space-between',
   borderRadius: '4px',
-  background: theme.colors.darkGray,
   padding: '13px 24px',
   color: 'white',
-  fontFamily: 'Alegreya Sans',
   fontStyle: 'normal',
   fontWeight: '900',
   fontSize: '18px',
   lineHeight: ' 24px',
+  small: {
+    fontWeight: '300',
+  },
+  margin: '16px 0',
+  background: theme.colors.darkGray,
+  fontFamily: theme.fonts.alegreyaSans,
+  [`@media screen and (max-width: ${breakPoints.sm})`]: {
+    flexDirection: 'column',
+  },
+});
+
+const MostExpensiceContainer = styled(StatContainer)({
   span: {
     '&:before': {
       content: '": "',
     },
-  },
-  margin: '16px 0',
-  [`@media screen and (max-width: ${breakPoints.sm})`]: {
-    flexDirection: 'column',
   },
 });
 
@@ -55,7 +61,7 @@ export const MostExpensiveTransaction = (
   }, [transactions]);
 
   return (
-    <TransactionDiv>
+    <MostExpensiceContainer>
       <p>{translate(TEXT.labels.mostExpensive)}</p>
       {mostExpensiveAction ? (
         <p>
@@ -65,8 +71,8 @@ export const MostExpensiveTransaction = (
           </span>
         </p>
       ) : (
-        <p>...</p>
+        <small>{translate(TEXT.general.noExpenses)}</small>
       )}
-    </TransactionDiv>
+    </MostExpensiceContainer>
   );
 };

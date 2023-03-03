@@ -1,29 +1,15 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { breakPoints, theme } from '../../theme';
+import { breakPoints } from '../../theme';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
 import { Currency } from '../../translate/translate.scema';
 import { Transaction } from '../../types';
 import { thousandSeparator } from '../../utils/thousand-separator';
+import { StatContainer } from './most-expensive-transaction';
 
-const TransactionDiv = styled.div({
-  display: 'flex',
+const TopListContainer = styled(StatContainer)({
   flexDirection: 'column',
-  justifyContent: 'space-between',
-  borderRadius: '4px',
-  background: theme.colors.darkGray,
-  padding: '13px 24px',
-  color: 'white',
-  fontFamily: 'Alegreya Sans',
-  fontStyle: 'normal',
-  fontWeight: '900',
-  fontSize: '18px',
-  lineHeight: ' 24px',
-  margin: '8px 0',
-  [`@media screen and (max-width: ${breakPoints.sm})`]: {
-    flexDirection: 'column',
-  },
 });
 
 const Top3List = styled.div({
@@ -71,7 +57,7 @@ export const Top3Expenses = (props: Top3ExpensesProps) => {
   }, [transactions]);
 
   return (
-    <TransactionDiv>
+    <TopListContainer>
       <p>{translate(TEXT.labels.top3)}</p>
       {topExpenses.length > 0 ? (
         <Top3List
@@ -92,8 +78,8 @@ export const Top3Expenses = (props: Top3ExpensesProps) => {
           })}
         </Top3List>
       ) : (
-        <small>no items yet...</small>
+        <small>{translate(TEXT.general.noExpenses)}</small>
       )}
-    </TransactionDiv>
+    </TopListContainer>
   );
 };

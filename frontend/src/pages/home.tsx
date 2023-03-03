@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { CashTrackings } from '../components/cash-tracking-box/cash-trackings';
 import { DougnutChart } from '../components/chart/chart';
+import { Content } from '../components/content/content';
 import { Header } from '../components/header/header';
-import { Content } from '../components/main/main';
 import { useFetchTransactions } from '../hooks/fetch-transactions.hook';
 import { breakPoints } from '../theme';
 

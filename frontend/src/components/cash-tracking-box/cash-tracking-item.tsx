@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { theme } from '../../theme';
 import { Currency } from '../../translate/translate.scema';
 import { thousandSeparator } from '../../utils/thousand-separator';
 
@@ -13,18 +14,18 @@ const CashTrackingBox = styled.div({
   borderRadius: '8px',
   color: 'white',
   p: {
-    fontFamily: 'Alegreya',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: '12px',
     lineHeight: '20px',
+    fontFamily: theme.fonts.alegreya,
   },
   h4: {
-    fontFamily: 'Alegreya Sans',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: '24px',
     lineHeight: '20px',
+    fontFamily: theme.fonts.alegreyaSans,
   },
 });
 

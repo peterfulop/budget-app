@@ -24,7 +24,7 @@ export const useCashflowTracking = (props: { transactions: Transaction[] }) => {
     }
   };
   useEffect(() => {
-    if (transactions.length > 0) {
+    if (transactions?.length > 0) {
       const totalBudget = sumByCondition({ transactions, isIncome: true });
       const totalSpents = sumByCondition({ transactions, isIncome: false });
       setBudget(totalBudget);

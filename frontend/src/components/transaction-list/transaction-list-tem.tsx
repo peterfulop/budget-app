@@ -3,22 +3,24 @@ import styled from 'styled-components';
 import DeleteIcon from '../../assets/delete-icon.svg';
 import { useTransactionActions } from '../../hooks/transaction-actions.hook';
 import { theme } from '../../theme';
+import { translate } from '../../translate/translate';
+import { TEXT } from '../../translate/translate-objects';
 import { Currency } from '../../translate/translate.scema';
 import { ITransactions } from '../../types';
 import { thousandSeparator } from '../../utils/thousand-separator';
 
-const ListItem = styled.div({
+export const ListItem = styled.div({
   display: 'flex',
   justifyContent: 'space-between',
   padding: '13px 24px',
+  borderBottom: `1px solid ${theme.colors.lightGray}`,
   p: {
-    fontFamily: theme.fonts.alegreyaSans,
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: '18px',
     lineHeight: '24px',
+    fontFamily: theme.fonts.alegreyaSans,
   },
-  borderBottom: `1px solid ${theme.colors.lightGray}`,
 });
 
 const AmountBox = styled.div({
@@ -28,13 +30,13 @@ const AmountBox = styled.div({
   borderRadius: '20px',
   padding: '5px 9px',
   color: 'white',
-  fontFamily: theme.fonts.alegreyaSans,
   fontStyle: ' normal',
   fontWeight: '700',
   fontSize: '14px',
   lineHeight: '12px',
-  background: theme.colors.red,
   marginRight: '20px',
+  background: theme.colors.red,
+  fontFamily: theme.fonts.alegreyaSans,
 });
 
 const DeleteBtn = styled.button({
@@ -53,14 +55,14 @@ const ListItemAction = styled.div({
   justifyContent: 'space-between',
 });
 
-interface ICashFlowListItem extends ITransactions {
+interface ITransactionListItem extends ITransactions {
   id: string;
   name: string;
   amount: number;
   income: boolean;
 }
 
-export const CashFlowListItem: FC<ICashFlowListItem> = ({
+export const TransactionListItem: FC<ITransactionListItem> = ({
   id,
   name,
   amount,
@@ -86,7 +88,7 @@ export const CashFlowListItem: FC<ICashFlowListItem> = ({
           {thousandSeparator(amount, Currency.HUF)}
         </AmountBox>
         <DeleteBtn onClick={handleClick}>
-          <img src={DeleteIcon} alt='Your SVG' />
+          <img src={DeleteIcon} alt={translate(TEXT.buttons.delete)} />
         </DeleteBtn>
       </ListItemAction>
     </ListItem>

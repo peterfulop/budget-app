@@ -17,15 +17,15 @@ const FilterSection = styled.div({
 
 const SearchInput = styled.input({
   flex: '1',
-  border: `1px solid ${theme.colors.lightGray}`,
-  fontFamily: theme.fonts.alegreyaSans,
-  color: theme.colors.darkGray,
   borderRadius: '4px',
   fontStyle: 'normal',
   fontWeight: '400',
   fontSize: '14px',
   lineHeight: '20px',
   padding: '6px 15px',
+  color: theme.colors.darkGray,
+  fontFamily: theme.fonts.alegreyaSans,
+  border: `1px solid ${theme.colors.lightGray}`,
 });
 
 interface ICashflowFilter {

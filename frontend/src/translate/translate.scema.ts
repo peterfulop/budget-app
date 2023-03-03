@@ -21,7 +21,8 @@ export enum BaseLabels {
   SPENT_SO_FAR = 'spentSoFar',
   MOST_EXPENSIVE = 'mostExpensive',
   TOP3 = 'top3',
-  CHART = 'chart',
+  CHART_TITLE = 'chartTitle',
+  CHART_PERCENTAGE = 'chartPercentage',
 }
 
 type CashFlowForm = {
@@ -65,6 +66,8 @@ export type Text = {
     loading: Content;
     serverError: Content;
     confirmDelete: Content;
+    noTransactions: Content;
+    noExpenses: Content;
   };
   labels: Record<BaseLabels, Content>;
   ERRORS: ServerSideErrorObject;
