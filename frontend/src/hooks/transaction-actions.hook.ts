@@ -44,8 +44,8 @@ export const useTransactionActions = () => {
   return {
     data,
     loading,
-    errors: errors,
-    setAlerts: setErrors,
+    errors,
+    setErrors,
     createTransaction,
     deleteTransaction,
   };

@@ -1,12 +1,10 @@
-import { ServerSideError } from '../types/server-side-errors.enum';
-
 export enum Languages {
   ENG = 'ENG',
 }
 
 export type Content = Record<Languages, string>;
 
-export enum CashFlowFomInputs {
+export enum TransactionInputs {
   NAME = 'name',
   AMOUNT = 'amount',
 }
@@ -25,7 +23,7 @@ export enum BaseLabels {
   CHART_PERCENTAGE = 'chartPercentage',
 }
 
-type CashFlowForm = {
+type TransactionForm = {
   title: Content;
   buttons: {
     expense: Content;
@@ -34,7 +32,17 @@ type CashFlowForm = {
   alerts: {
     success: Content;
   };
-  inputs: Record<CashFlowFomInputs, { label: Content; placeholder: Content }>;
+  inputs: Record<TransactionInputs, { label: Content; placeholder: Content }>;
+  validationErrors: {
+    nameRequired: Content;
+    amountRequired: Content;
+    nameOnlyText: Content;
+    amountOnlyNumber: Content;
+    amountOnlyInteger: Content;
+    amountOnlyPositiveNumber: Content;
+    allRequired: Content;
+    incomeRequired: Content;
+  };
 };
 
 export type Text = {
@@ -53,7 +61,7 @@ export type Text = {
       };
     };
   };
-  cashFlowForm: CashFlowForm;
+  transactionForm: TransactionForm;
   buttons: {
     expenses: Content;
     incomes: Content;
@@ -70,10 +78,4 @@ export type Text = {
     noExpenses: Content;
   };
   labels: Record<BaseLabels, Content>;
-  ERRORS: ServerSideErrorObject;
 };
-
-export type ServerSideErrorObject = Record<
-  keyof typeof ServerSideError,
-  Content
->;

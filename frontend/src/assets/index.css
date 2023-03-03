@@ -12,7 +12,23 @@
   --green: #5cb85c;
   --blue: #0275d8;
   --darkGray: #373a3c;
+  --midGray: #5e6366;
   --lightGray: #d2d2d2;
   --alegreya: 'Alegreya';
   --alegreyaSans: 'Alegreya Sans';
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--lightGray);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--darkGray);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--midGray);
 }

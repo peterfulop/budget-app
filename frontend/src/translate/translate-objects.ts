@@ -19,11 +19,11 @@ export const TEXT: Text = {
       name: { ENG: 'Not Found' },
       labels: {
         title: { ENG: 'Page Not Found!' },
-        content: { ENG: 'Return to the contacts page:' },
+        content: { ENG: 'Return to the home page:' },
       },
     },
   },
-  cashFlowForm: {
+  transactionForm: {
     title: { ENG: 'Cash flow' },
     inputs: {
       name: {
@@ -50,6 +50,32 @@ export const TEXT: Text = {
     alerts: {
       success: {
         ENG: 'You successfully created the transaction!',
+      },
+    },
+    validationErrors: {
+      nameRequired: {
+        ENG: 'The transaction name is mandatory!',
+      },
+      amountRequired: {
+        ENG: 'The transaction amount is mandatory!',
+      },
+      nameOnlyText: {
+        ENG: 'Only characters are allowed in the transaction name!',
+      },
+      amountOnlyNumber: {
+        ENG: 'Only numbers are allowed in the transaction amount!',
+      },
+      amountOnlyInteger: {
+        ENG: 'Only integers are allowed in the transaction amount!',
+      },
+      amountOnlyPositiveNumber: {
+        ENG: 'Only positive numbers are allowed in the transaction amount!',
+      },
+      allRequired: {
+        ENG: 'All fields are mandatory!',
+      },
+      incomeRequired: {
+        ENG: 'The transaction type is mandatory!',
       },
     },
   },
@@ -90,12 +116,5 @@ export const TEXT: Text = {
     chartPercentage: {
       ENG: 'of budget spent',
     },
-  },
-  ERRORS: {
-    MISSING_INPUTS: { ENG: 'All fields are mandatory!' },
-    MISSING_RECORD: {
-      ENG: 'Missing record!',
-    },
-    SERVER_ERROR: { ENG: 'Internal server error!' },
   },
 };

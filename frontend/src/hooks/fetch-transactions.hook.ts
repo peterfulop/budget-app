@@ -17,12 +17,16 @@ export const useFetchTransactions = () => {
     try {
       const res = await axios.get('http://localhost:5100/api/transactions');
       if (res.data) {
-        setTransactions(res.data.transactions);
+        const sortedTransactions = res.data.transactions.sort(
+          (a: Transaction, b: Transaction) =>
+            Date.parse(b.createdAt) - Date.parse(a.createdAt)
+        );
+        setTransactions(sortedTransactions);
       }
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
-      setErrors(error.response.data.errors);
+      setErrors([error.message]);
     }
   };
 

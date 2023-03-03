@@ -6,6 +6,7 @@ import { theme } from '../../theme';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
 import { CreateTransactionInput, ITransactions } from '../../types';
+import { yupValidateForm } from './validation/transaction.schema';
 
 const Form = styled.form({
   margin: '30px 0',
@@ -15,6 +16,7 @@ const Form = styled.form({
     fontSize: '32px',
     lineHeight: '44px',
     fontFamily: theme.fonts.alegreya,
+    color: theme.colors.darkGray,
   },
   label: {
     fontStyle: 'normal',
@@ -92,6 +94,7 @@ const ErrorMessage = styled.div({
   fontSize: '18px',
   lineHeight: ' 24px',
   margin: '16px 0',
+  cursor: 'pointer',
   background: theme.colors.red,
   fontFamily: theme.fonts.alegreyaSans,
 });
@@ -99,12 +102,29 @@ const ErrorMessage = styled.div({
 interface ITransactionForm extends ITransactions {}
 
 export const TransactionForm: FC<ITransactionForm> = ({ refetch }) => {
-  const { loading, errors, data, createTransaction, setAlerts } =
+  const { loading, errors, data, createTransaction, setErrors } =
     useTransactionActions();
 
   const { onChange, values } = useForm({
     initialState: { name: '', amount: '' },
   });
+
+  const validateForm = async (
+    input: CreateTransactionInput
+  ): Promise<CreateTransactionInput | void> => {
+    setErrors(null);
+    const { name, amount, income } = input;
+    if (!name || !amount || income === undefined) {
+      return setErrors(['All fields are required!']);
+    }
+    const { data, error } = await yupValidateForm(input);
+    if (error) {
+      return setErrors([...error]);
+    }
+    if (data) {
+      return data;
+    }
+  };
 
   const handleSubmit = async (input: { income: boolean }) => {
     const newTransaction: CreateTransactionInput = {
@@ -112,7 +132,10 @@ export const TransactionForm: FC<ITransactionForm> = ({ refetch }) => {
       amount: values.amount,
       income: input.income,
     };
-    await createTransaction(newTransaction);
+    const validData = await validateForm(newTransaction);
+    if (validData) {
+      await createTransaction(validData);
+    }
   };
 
   useEffect(() => {
@@ -124,26 +147,27 @@ export const TransactionForm: FC<ITransactionForm> = ({ refetch }) => {
   return (
     <Form
       onChange={() => {
-        setAlerts(null);
+        setErrors(null);
       }}
     >
-      <h2>{translate(TEXT.cashFlowForm.title)}</h2>
+      <h2>{translate(TEXT.transactionForm.title)}</h2>
       <FormField>
         <label htmlFor='input-name'>
-          {translate(TEXT.cashFlowForm.inputs.name.label)}
+          {translate(TEXT.transactionForm.inputs.name.label)}
         </label>
         <Input
           id='input-name'
           name='name'
           type='text'
-          placeholder={translate(TEXT.cashFlowForm.inputs.name.placeholder)}
+          placeholder={translate(TEXT.transactionForm.inputs.name.placeholder)}
           onChange={onChange}
           disabled={loading}
+          style={{ border: `${errors ? '1px solid red' : ''}` }}
         />
       </FormField>
       <FormField>
         <label htmlFor='input-amount'>
-          {translate(TEXT.cashFlowForm.inputs.amount.label)}
+          {translate(TEXT.transactionForm.inputs.amount.label)}
         </label>
         <AmountInputBox>
           <button
@@ -155,15 +179,18 @@ export const TransactionForm: FC<ITransactionForm> = ({ refetch }) => {
               await handleSubmit({ income: true });
             }}
           >
-            {translate(TEXT.cashFlowForm.buttons.income)}
+            {translate(TEXT.transactionForm.buttons.income)}
           </button>
           <AmountInput
             id='input-amount'
             name='amount'
             type='number'
-            placeholder={translate(TEXT.cashFlowForm.inputs.amount.placeholder)}
+            placeholder={translate(
+              TEXT.transactionForm.inputs.amount.placeholder
+            )}
             onChange={onChange}
             disabled={loading}
+            style={{ border: `${errors ? '1px solid red' : ''}` }}
           />
           <button
             type='button'
@@ -174,19 +201,27 @@ export const TransactionForm: FC<ITransactionForm> = ({ refetch }) => {
               await handleSubmit({ income: false });
             }}
           >
-            {translate(TEXT.cashFlowForm.buttons.expense)}
+            {translate(TEXT.transactionForm.buttons.expense)}
           </button>
         </AmountInputBox>
       </FormField>
-      <FormField>
-        {errors && errors?.length > 0 && (
-          <div>
-            {errors.map((error, index) => {
-              return <ErrorMessage key={index}>{error}</ErrorMessage>;
-            })}
-          </div>
-        )}
-      </FormField>
+      {errors && errors?.length > 0 && (
+        <>
+          {errors.map((error, index) => {
+            return (
+              <ErrorMessage
+                key={index}
+                onClick={(e) => {
+                  setErrors(null);
+                  e.currentTarget.style.display = 'none';
+                }}
+              >
+                {error}
+              </ErrorMessage>
+            );
+          })}
+        </>
+      )}
     </Form>
   );
 };

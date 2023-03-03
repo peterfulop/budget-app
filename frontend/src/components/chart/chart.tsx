@@ -2,7 +2,7 @@ import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import styled from 'styled-components';
 import { useCashflowTracking } from '../../hooks/cashflow-tracking.hook';
-import { theme } from '../../theme';
+import { breakPoints, theme } from '../../theme';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
 import { Transaction } from '../../types';
@@ -14,6 +14,13 @@ const ChartBox = styled.div({
     fontSize: '32px',
     lineHeight: '44px',
     fontFamily: theme.fonts.alegreya,
+    color: theme.colors.darkGray,
+  },
+  [`@media screen and (max-width: ${breakPoints.md})`]: {
+    margin: '50px auto',
+    padding: 0,
+    width: '300px !important',
+    height: '300px !important',
   },
 });
 
@@ -83,7 +90,10 @@ export const DougnutChart = (props: { transactions: Transaction[] }) => {
         <Doughnut
           options={{ maintainAspectRatio: true, cutout: 110 }}
           data={data}
-          style={{ padding: '1rem', width: '382px' }}
+          style={{
+            padding: '1rem',
+            width: '382px',
+          }}
         />
       </div>
     </ChartBox>

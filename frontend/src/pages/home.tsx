@@ -13,25 +13,30 @@ const MainComponent = styled.main({
   display: 'flex',
   flexDirection: 'row',
   gap: '30px',
+  flexWrap: 'wrap',
   [`@media screen and (max-width: ${breakPoints.sm})`]: {
     flexDirection: 'column',
   },
 });
-
 const Sidebar = styled.section({
-  flex: '1',
+  width: 'calc(1140px / 3)',
+  [`@media screen and (max-width: ${breakPoints.lg})`]: {
+    flex: '1',
+  },
+  [`@media screen and (max-width: ${breakPoints.sm})`]: {
+    width: '100%',
+  },
 });
 
 export const HomePage = () => {
   const { transactions, loading, errors, getTransactions } =
     useFetchTransactions();
-
   return (
     <>
       <Header />
-      {errors && errors?.length > 0 && <p>hello error</p>}
+      {errors && errors?.length > 0 && <p>{errors[0]}</p>}
       {loading && <p>{translate(TEXT.general.fetchingData)}</p>}
-      {!loading && (
+      {!loading && !errors && transactions && (
         <>
           <CashFlowTrackings transactions={transactions} />
           <MainComponent>

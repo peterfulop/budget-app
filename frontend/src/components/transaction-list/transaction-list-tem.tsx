@@ -13,6 +13,7 @@ export const ListItem = styled.div({
   display: 'flex',
   justifyContent: 'space-between',
   padding: '15px 24px',
+  background: 'white',
   borderBottom: `1px solid ${theme.colors.lightGray}`,
   p: {
     fontStyle: 'normal',
