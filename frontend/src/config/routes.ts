@@ -1,6 +1,6 @@
 import { NotFoundPage } from '../pages/404';
 import { HomePage } from '../pages/home';
-import IRoute, { Routes } from '../types';
+import { IRoute, Routes } from '../types';
 
 const mainRoutes: IRoute[] = [
   {

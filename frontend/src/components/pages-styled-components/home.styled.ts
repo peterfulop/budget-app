@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 import { breakPoints } from '../../theme';
 
+export const MainApp = styled.div({
+  margin: '0 auto',
+  maxWidth: '1240px',
+  padding: '0 20px',
+});
+
 export const MainComponent = styled.main({
   display: 'flex',
   flexDirection: 'row',

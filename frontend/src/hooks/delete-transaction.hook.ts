@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { API } from '../types';
 
 export const useDeleteTransaction = () => {
   const [success, setSuccess] = useState<boolean>(false);
@@ -11,7 +12,7 @@ export const useDeleteTransaction = () => {
     setErrors(null);
     try {
       const res = await axios.delete(
-        `http://localhost:5100/api/transactions/delete/${input.id}`
+        API.DELETE_TRANSACTION.replace(':id', input.id)
       );
       setLoading(false);
       if (res.data.success) {

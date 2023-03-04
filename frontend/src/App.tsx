@@ -1,13 +1,11 @@
+import axios from 'axios';
 import { Route, Routes } from 'react-router-dom';
-import styled from 'styled-components';
 import './assets/index.css';
+import { MainApp } from './components/pages-styled-components/home.styled';
 import routes from './config/routes';
+import { API } from './types';
 
-const MainApp = styled.div({
-  margin: '0 auto',
-  maxWidth: '1240px',
-  padding: '0 20px',
-});
+axios.defaults.baseURL = API.BASE_URL;
 
 function App() {
   return (

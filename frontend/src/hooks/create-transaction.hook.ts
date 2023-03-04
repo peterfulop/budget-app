@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { CreateTransactionInput, Transaction } from '../types';
+import { API, CreateTransactionInput, Transaction } from '../types';
 
 export const useCreateTransaction = () => {
   const [data, setData] = useState<Transaction>();
@@ -14,7 +14,7 @@ export const useCreateTransaction = () => {
     setErrors(null);
     try {
       const res = await axios.post(
-        'http://localhost:5100/api/transactions/create',
+        API.CREATE_TRANSACTION,
         createTransactionInput
       );
       if (res.data.transaction) {

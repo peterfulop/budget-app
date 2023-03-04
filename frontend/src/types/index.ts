@@ -1,12 +1,19 @@
+export enum API {
+  GET_TRANSACTIONS = '/',
+  CREATE_TRANSACTION = '/create',
+  DELETE_TRANSACTION = '/delete/:id',
+  BASE_URL = 'http://localhost:5100/api/transactions',
+}
+
 export enum Routes {
   HOME = '/',
   NOT_FOUND = '/*',
 }
 
-export default interface IRoute {
-  path: string;
-  name: string;
-  component: any;
+export enum FilterState {
+  ALL = 'ALL',
+  INCOMES = 'INCOMES',
+  EXPENSES = 'EXPENSES',
 }
 
 export type Transaction = {
@@ -23,12 +30,12 @@ export type CreateTransactionInput = {
   income: boolean;
 };
 
-export enum FilterState {
-  EXPENSES = 'EXPENSES',
-  INCOMES = 'INCOMES',
-  ALL = 'ALL',
-}
-
 export interface ITransactions {
   refetch: () => Promise<void>;
+}
+
+export interface IRoute {
+  path: string;
+  name: string;
+  component: any;
 }

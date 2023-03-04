@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Transaction } from '../types';
+import { API, Transaction } from '../types';
 
 export const useGetTransactions = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -15,9 +15,9 @@ export const useGetTransactions = () => {
     setLoading(true);
     setErrors(null);
     try {
-      const res = await axios.get('http://localhost:5100/api/transactions');
+      const res = await axios.get(API.GET_TRANSACTIONS);
       if (res.data) {
-        const sortedTransactions = res.data.transactions.sort(
+        const sortedTransactions: Transaction[] = res.data.transactions.sort(
           (a: Transaction, b: Transaction) =>
             Date.parse(b.createdAt) - Date.parse(a.createdAt)
         );
