@@ -1,15 +1,16 @@
 import { CashflowFilter } from '../components/cash-flow-filter/cash-flow-filter';
 import { CashFlowTrackings } from '../components/cash-flow-tracking/cash-trackings';
 import { DougnutChart } from '../components/chart/chart';
-import { Header } from '../components/header/header';
+import { ErrorMessage } from '../components/common-styled-components/error-message.styled';
 import {
   MainComponent,
   Sidebar,
-} from '../components/pages-styled-components/home.styled';
-import { MostExpensiveTransaction } from '../components/statisctics/most-expensive-transaction';
-import { Top3Action } from '../components/statisctics/top-3-actions';
+} from '../components/common-styled-components/pages.styled';
+import { Header } from '../components/header/header';
 import { TransactionForm } from '../components/transaction-form/transaction-form';
 import { TransactionList } from '../components/transaction-list/transaction-list';
+import { MostExpensiveTransaction } from '../components/transaction-statisctics/most-expensive-transaction';
+import { Top3Action } from '../components/transaction-statisctics/top-3-actions';
 import { useGetTransactions } from '../hooks/get-transactions.hook';
 import { useSearchAndFilterTransactions } from '../hooks/search-and-filter.hook';
 import { translate } from '../translate/translate';
@@ -32,10 +33,10 @@ export const HomePage = () => {
     <>
       <Header />
       {errors && errors?.length > 0 && (
-        <p>{translate(TEXT.general.serverError)}</p>
+        <ErrorMessage>{translate(TEXT.general.serverError)}</ErrorMessage>
       )}
       {loading && <p>{translate(TEXT.general.fetchingData)}</p>}
-      {!loading && transactions && (
+      {!loading && !errors && transactions && (
         <>
           <CashFlowTrackings transactions={transactions} />
           <MainComponent>

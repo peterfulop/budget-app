@@ -1,6 +1,5 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import DeleteIcon from '../../assets/delete-icon.svg';
-import { useDeleteTransaction } from '../../hooks/delete-transaction.hook';
 import { theme } from '../../theme';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
@@ -20,6 +19,7 @@ interface ITransactionListItem extends ITransactions {
   name: string;
   amount: number;
   income: boolean;
+  deleteTransaction: (input: { id: string }) => Promise<void>;
 }
 
 export const TransactionListItem: FC<ITransactionListItem> = ({
@@ -28,21 +28,22 @@ export const TransactionListItem: FC<ITransactionListItem> = ({
   amount,
   income,
   refetch,
+  deleteTransaction,
 }) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState<boolean>(false);
 
-  const { success, loading, deleteTransaction } = useDeleteTransaction();
+  // const { success, loading, deleteTransaction } = useDeleteTransaction();
 
   const handleClick = async () => {
     setDeleteConfirmation(false);
     await deleteTransaction({ id });
   };
 
-  useEffect(() => {
-    if (!loading && success) {
-      refetch();
-    }
-  }, [success]);
+  // useEffect(() => {
+  //   if (!loading && success) {
+  //     refetch();
+  //   }
+  // }, [success]);
 
   return (
     <ListItem style={{ padding: `${deleteConfirmation ? '9px 24px' : ''}` }}>
