@@ -6,11 +6,14 @@ export const transactionSchema = yup.object().shape({
   name: yup
     .string()
     .trim()
-    .matches(
-      /^[a-zA-Z \u00C0-\u024F\u1E00-\u1EFF]*$/,
-      translate(TEXT.transactionForm.validationErrors.nameOnlyText)
-    )
-    .required(translate(TEXT.transactionForm.validationErrors.nameRequired)),
+    .required(translate(TEXT.transactionForm.validationErrors.nameRequired))
+    .test(
+      'onlyNumbers',
+      translate(TEXT.transactionForm.validationErrors.nameOnlyText),
+      (value) => {
+        return isNaN(Number(value));
+      }
+    ),
   amount: yup
     .number()
     .positive(

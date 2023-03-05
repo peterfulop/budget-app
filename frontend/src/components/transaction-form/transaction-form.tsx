@@ -36,9 +36,10 @@ export const TransactionForm: FC<ITransactions> = ({ refetch }) => {
   }, [data]);
 
   const switchTransactionType = (isIncome: boolean): CreateTransactionInput => {
-    const values = getValues();
+    const { amount, name } = getValues();
     return {
-      ...values,
+      amount: amount,
+      name: name.trim(),
       income: isIncome,
     };
   };

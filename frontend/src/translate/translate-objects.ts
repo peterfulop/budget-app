@@ -60,7 +60,7 @@ export const TEXT: Text = {
         ENG: 'The transaction amount is mandatory!',
       },
       nameOnlyText: {
-        ENG: 'Only characters are allowed in the transaction name!',
+        ENG: 'Only characters or mixed character strings are allowed in the transaction name!',
       },
       amountOnlyNumber: {
         ENG: 'Only numbers are allowed in the transaction amount!',
