@@ -3,7 +3,7 @@ import { useDeleteTransaction } from '../../hooks/delete-transaction.hook';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
 import { ITransactions, Transaction } from '../../types';
-import { ErrorMessage } from '../transaction-form/transaction-form.styled';
+import { ErrorMessage } from '../common-styled-components/error-message.styled';
 import { TransactionListItem } from './transaction-list-tem';
 import { List, ListItem } from './transaction-list.styled';
 
