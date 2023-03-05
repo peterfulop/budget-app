@@ -20,7 +20,7 @@ export const useDeleteTransaction = () => {
       }
     } catch (error: any) {
       setLoading(false);
-      setErrors(error.response.data.errors);
+      setErrors([error.message] || error.response.data.errors);
     }
   };
 

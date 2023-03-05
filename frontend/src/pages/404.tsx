@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { NotFound } from '../components/pages-styled-components/not-found.styled';
+import { NotFound } from '../components/common-styled-components/not-found.styled';
 import { translate } from '../translate/translate';
 import { TEXT } from '../translate/translate-objects';
+import { Routes } from '../types';
 
 export const NotFoundPage = () => {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ export const NotFoundPage = () => {
     <NotFound>
       <h2>{translate(TEXT.pages.notFound.labels.title)}</h2>
       <h4>{translate(TEXT.pages.notFound.labels.content)}</h4>
-      <button onClick={() => navigate('/')}>
+      <button onClick={() => navigate(Routes.HOME)}>
         {translate(TEXT.pages.home.name)}
       </button>
     </NotFound>
