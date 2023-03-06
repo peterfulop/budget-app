@@ -11,14 +11,17 @@ import { TransactionForm } from '../components/transaction-form/transaction-form
 import { TransactionList } from '../components/transaction-list/transaction-list';
 import { MostExpensiveTransaction } from '../components/transaction-statisctics/most-expensive-transaction';
 import { Top3Action } from '../components/transaction-statisctics/top-3-actions';
-import { useGetTransactions } from '../hooks/get-transactions.hook';
 import { useSearchAndFilterTransactions } from '../hooks/search-and-filter.hook';
+import { transactionApi } from '../redux/services/transactions';
 import { translate } from '../translate/translate';
 import { TEXT } from '../translate/translate-objects';
 
 export const HomePage = () => {
-  const { transactions, loading, errors, getTransactions } =
-    useGetTransactions();
+  const {
+    data: transactions,
+    isError,
+    isLoading: loading,
+  } = transactionApi.useGetTransactionsQuery();
 
   const {
     filteredTransactions,
@@ -28,20 +31,19 @@ export const HomePage = () => {
   } = useSearchAndFilterTransactions({
     transactions,
   });
-
   return (
     <>
       <Header />
-      {errors && errors?.length > 0 && (
+      {isError && (
         <ErrorMessage>{translate(TEXT.general.serverError)}</ErrorMessage>
       )}
       {loading && <p>{translate(TEXT.general.fetchingData)}</p>}
-      {!loading && !errors && transactions && (
+      {!loading && !isError && transactions && (
         <>
           <CashFlowTrackings transactions={transactions} />
           <MainComponent>
             <Sidebar>
-              <TransactionForm refetch={getTransactions} />
+              <TransactionForm />
               <DougnutChart transactions={transactions} />
             </Sidebar>
             <div style={{ flex: '2' }}>
@@ -55,10 +57,7 @@ export const HomePage = () => {
                 transactions={filteredTransactions}
                 filterState={filterState}
               />
-              <TransactionList
-                transactions={filteredTransactions}
-                refetch={getTransactions}
-              />
+              <TransactionList transactions={filteredTransactions} />
             </div>
           </MainComponent>
         </>

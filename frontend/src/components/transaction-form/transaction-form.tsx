@@ -1,9 +1,7 @@
-import { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useCreateTransaction } from '../../hooks/create-transaction.hook';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
-import { CreateTransactionInput, ITransactions } from '../../types';
+import { CreateTransactionInput } from '../../types';
 import {
   AmountInput,
   AmountInputBox,
@@ -13,27 +11,23 @@ import {
 } from './transaction-form.styled';
 
 import { yupResolver } from '@hookform/resolvers/yup';
+import { transactionApi } from '../../redux/services/transactions';
 import { ErrorMessage } from '../common-styled-components/error-message.styled';
 import { transactionSchema } from './validation/transaction.schema';
 
-export const TransactionForm: FC<ITransactions> = ({ refetch }) => {
-  const { loading, errors, data, createTransaction, setErrors } =
-    useCreateTransaction();
+export const TransactionForm = () => {
+  const [createTransaction, { isLoading: loading, isError }] =
+    transactionApi.useCreateTransactionMutation();
 
   const {
     register,
     handleSubmit,
     formState: { errors: formStateErrors },
     getValues,
+    reset,
   } = useForm<CreateTransactionInput>({
     resolver: yupResolver(transactionSchema),
   });
-
-  useEffect(() => {
-    if (!loading && data) {
-      refetch();
-    }
-  }, [data]);
 
   const switchTransactionType = (isIncome: boolean): CreateTransactionInput => {
     const { amount, name } = getValues();
@@ -44,18 +38,24 @@ export const TransactionForm: FC<ITransactions> = ({ refetch }) => {
     };
   };
 
-  const onSubmitIncome = async () => {
+  const onSubmitIncome = () => {
     const values = switchTransactionType(true);
-    await createTransaction(values);
+    createTransaction(values);
+    reset();
   };
 
-  const onSubmitExpense = async () => {
+  const onSubmitExpense = () => {
     const values = switchTransactionType(false);
-    await createTransaction(values);
+    createTransaction(values);
+    reset();
   };
+
+  if (isError) {
+    return <ErrorMessage>{translate(TEXT.general.serverError)}</ErrorMessage>;
+  }
 
   return (
-    <Form onChange={() => setErrors(null)}>
+    <Form>
       <h2>{translate(TEXT.transactionForm.title)}</h2>
       <FormField>
         <label htmlFor='input-name'>
@@ -113,23 +113,6 @@ export const TransactionForm: FC<ITransactions> = ({ refetch }) => {
         </AmountInputBox>
         <span>{formStateErrors.amount?.message}</span>
       </FormField>
-      {errors && errors?.length > 0 && (
-        <>
-          {errors.map((error, index) => {
-            return (
-              <ErrorMessage
-                key={index}
-                onClick={(e) => {
-                  setErrors(null);
-                  e.currentTarget.style.display = 'none';
-                }}
-              >
-                {error}
-              </ErrorMessage>
-            );
-          })}
-        </>
-      )}
     </Form>
   );
 };

@@ -4,6 +4,11 @@ export enum API {
   DELETE_TRANSACTION = '/delete/:id',
   BASE_URL = 'http://localhost:5100/api/transactions',
 }
+export enum Method {
+  GET = 'GET',
+  POST = 'POST',
+  DELETE = 'DELETE',
+}
 
 export enum Routes {
   HOME = '/',
@@ -29,10 +34,6 @@ export type CreateTransactionInput = {
   amount: number;
   income: boolean;
 };
-
-export interface ITransactions {
-  refetch: () => Promise<void>;
-}
 
 export interface IRoute {
   path: string;

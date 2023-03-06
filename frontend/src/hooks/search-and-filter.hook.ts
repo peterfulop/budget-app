@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { FilterState, Transaction } from '../types';
 
 type SearchAndFilterTransactionProps = {
-  transactions: Transaction[];
+  transactions: Transaction[] | undefined;
 };
 
 export const useSearchAndFilterTransactions = (
@@ -22,20 +22,26 @@ export const useSearchAndFilterTransactions = (
 
   const switchFilterState = () => {
     let filtered: Transaction[] = [];
-    switch (filterState) {
-      case FilterState.EXPENSES:
-        filtered = transactions.filter((trans) => !trans.income);
-        break;
-      case FilterState.INCOMES:
-        filtered = transactions.filter((trans) => trans.income);
-        break;
-      case FilterState.ALL:
-        filtered = [...transactions];
-        break;
-    }
+
+    if (transactions)
+      switch (filterState) {
+        case FilterState.EXPENSES:
+          filtered = transactions.filter((trans) => !trans.income);
+          break;
+        case FilterState.INCOMES:
+          filtered = transactions.filter((trans) => trans.income);
+          break;
+        case FilterState.ALL:
+          filtered = [...transactions];
+          break;
+      }
     const searchResult = searchByUserInput(filtered);
     const preFiltered = searchResult ? searchResult : filtered;
-    setFilteredTransactions(preFiltered);
+    const sortedTransactions = preFiltered.sort(
+      (a: Transaction, b: Transaction) =>
+        Date.parse(b.createdAt) - Date.parse(a.createdAt)
+    );
+    setFilteredTransactions(sortedTransactions);
   };
 
   const searchByUserInput = (transactions: Transaction[]) => {

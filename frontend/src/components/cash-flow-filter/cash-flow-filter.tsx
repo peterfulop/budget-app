@@ -17,7 +17,13 @@ export const CashflowFilter: FC<ICashflowFilter> = ({
   setSearchKeyword,
 }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(e.target.value);
+    const input = e.currentTarget;
+    setSearchKeyword(input.value);
+    if (input.value) {
+      input.classList.add('active');
+    } else {
+      input.classList.remove('active');
+    }
   };
 
   return (

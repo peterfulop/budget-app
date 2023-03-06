@@ -1,11 +1,7 @@
-import axios from 'axios';
 import { Route, Routes } from 'react-router-dom';
 import './assets/index.css';
 import { MainApp } from './components/common-styled-components/pages.styled';
 import routes from './config/routes';
-import { API } from './types';
-
-axios.defaults.baseURL = API.BASE_URL;
 
 function App() {
   return (

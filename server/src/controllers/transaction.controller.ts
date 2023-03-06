@@ -16,7 +16,7 @@ const create: RequestHandler = async (req, res, _next) => {
       amount,
       income,
     });
-    return res.status(201).json({ transaction });
+    return res.status(201).json(transaction);
   } catch (error) {
     return res.status(500).json({ error });
   }
@@ -29,7 +29,7 @@ const getOne: RequestHandler = async (req, res, _next) => {
       id,
     });
     return transaction
-      ? res.status(200).json({ transaction })
+      ? res.status(200).json(transaction)
       : res.status(404).json({ message: 'Not found' });
   } catch (error) {
     return res.status(500).json({ error });
@@ -40,7 +40,7 @@ const getAll: RequestHandler = async (_req, res, _next) => {
   try {
     const transactions = await transactionService.getTransactions();
     return transactions
-      ? res.status(200).json({ transactions })
+      ? res.status(200).json(transactions)
       : res.status(404).json({ message: 'Not found' });
   } catch (error) {
     return res.status(500).json({ error });
