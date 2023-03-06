@@ -9,11 +9,13 @@ import { List, ListItem } from './transaction-list.styled';
 
 interface ITransactionList extends ITransactions {
   transactions: Transaction[];
+  setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const TransactionList: FC<ITransactionList> = ({
   transactions,
   refetch,
+  setSearchKeyword,
 }) => {
   const { success, errors, loading, deleteTransaction, setErrors } =
     useDeleteTransaction();
@@ -21,6 +23,7 @@ export const TransactionList: FC<ITransactionList> = ({
   useEffect(() => {
     if (!loading && success) {
       refetch();
+      setSearchKeyword('');
     }
   }, [success]);
 

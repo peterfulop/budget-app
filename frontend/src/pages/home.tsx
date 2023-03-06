@@ -58,6 +58,7 @@ export const HomePage = () => {
               <TransactionList
                 transactions={filteredTransactions}
                 refetch={getTransactions}
+                setSearchKeyword={setSearchKeyword}
               />
             </div>
           </MainComponent>
