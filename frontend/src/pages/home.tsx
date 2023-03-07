@@ -20,16 +20,15 @@ import { TEXT } from '../translate/translate-objects';
 
 export const HomePage = () => {
   const { getTransactions } = useActions();
-
-  useEffect(() => {
-    getTransactions();
-  }, []);
-
   const {
     data: transactions,
     error,
     loading,
   } = useTypedSelector((state) => state.getTransactions);
+
+  useEffect(() => {
+    getTransactions();
+  }, []);
 
   const {
     filteredTransactions,
