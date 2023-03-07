@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { CashflowFilter } from '../components/cash-flow-filter/cash-flow-filter';
 import { CashFlowTrackings } from '../components/cash-flow-tracking/cash-trackings';
 import { DougnutChart } from '../components/chart/chart';
@@ -12,16 +13,23 @@ import { TransactionList } from '../components/transaction-list/transaction-list
 import { MostExpensiveTransaction } from '../components/transaction-statisctics/most-expensive-transaction';
 import { Top3Action } from '../components/transaction-statisctics/top-3-actions';
 import { useSearchAndFilterTransactions } from '../hooks/search-and-filter.hook';
-import { transactionApi } from '../redux/services/transactions';
+import { useActions } from '../hooks/use-actions';
+import { useTypedSelector } from '../hooks/use-typed-selector';
 import { translate } from '../translate/translate';
 import { TEXT } from '../translate/translate-objects';
 
 export const HomePage = () => {
+  const { getTransactions } = useActions();
+
+  useEffect(() => {
+    getTransactions();
+  }, []);
+
   const {
     data: transactions,
-    isError,
-    isLoading: loading,
-  } = transactionApi.useGetTransactionsQuery();
+    error,
+    loading,
+  } = useTypedSelector((state) => state.getTransactions);
 
   const {
     filteredTransactions,
@@ -31,14 +39,13 @@ export const HomePage = () => {
   } = useSearchAndFilterTransactions({
     transactions,
   });
+
   return (
     <>
       <Header />
-      {isError && (
-        <ErrorMessage>{translate(TEXT.general.serverError)}</ErrorMessage>
-      )}
+      {error && <ErrorMessage>{error}</ErrorMessage>}
       {loading && <p>{translate(TEXT.general.fetchingData)}</p>}
-      {!loading && !isError && transactions && (
+      {!loading && !error && transactions && (
         <>
           <CashFlowTrackings transactions={transactions} />
           <MainComponent>

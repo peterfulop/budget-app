@@ -1,13 +1,7 @@
-import {
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-  FetchBaseQueryMeta,
-  MutationDefinition,
-} from '@reduxjs/toolkit/dist/query';
-import { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { FC, useState } from 'react';
+import { Dispatch } from 'redux';
 import DeleteIcon from '../../assets/delete-icon.svg';
+import { DeleteTransactionActions } from '../../state/actions/delete-transaction-actions';
 import { theme } from '../../theme';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
@@ -26,21 +20,9 @@ interface ITransactionListItem {
   name: string;
   amount: number;
   income: boolean;
-  deleteTransaction: MutationTrigger<
-    MutationDefinition<
-      any,
-      BaseQueryFn<
-        string | FetchArgs,
-        unknown,
-        FetchBaseQueryError,
-        {},
-        FetchBaseQueryMeta
-      >,
-      'Transactions',
-      any,
-      'transactionApi'
-    >
-  >;
+  deleteTransaction: (
+    id: string
+  ) => (dispatch: Dispatch<DeleteTransactionActions>) => Promise<void>;
 }
 
 export const TransactionListItem: FC<ITransactionListItem> = ({

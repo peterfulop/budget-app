@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { transactionApi } from '../../redux/services/transactions';
+import { useActions } from '../../hooks/use-actions';
+import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
 import { Transaction } from '../../types';
@@ -12,16 +13,18 @@ interface ITransactionList {
 }
 
 export const TransactionList: FC<ITransactionList> = ({ transactions }) => {
-  const [deleteTransaction, { isError }] =
-    transactionApi.useDeleteTransactionMutation();
+  const { deleteTransaction } = useActions();
+  const { error, loading, data } = useTypedSelector(
+    (state) => state.deleteTransaction
+  );
 
-  if (isError) {
+  if (error) {
     return <ErrorMessage>{translate(TEXT.general.serverError)}</ErrorMessage>;
   }
 
   return (
     <List>
-      {!isError && transactions?.length ? (
+      {!error && transactions?.length ? (
         transactions.map((trans, index) => {
           return (
             <TransactionListItem

@@ -11,13 +11,16 @@ import {
 } from './transaction-form.styled';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { transactionApi } from '../../redux/services/transactions';
+import { useActions } from '../../hooks/use-actions';
+import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { ErrorMessage } from '../common-styled-components/error-message.styled';
 import { transactionSchema } from './validation/transaction.schema';
 
 export const TransactionForm = () => {
-  const [createTransaction, { isLoading: loading, isError }] =
-    transactionApi.useCreateTransactionMutation();
+  const { createTransaction } = useActions();
+  const { error, loading } = useTypedSelector(
+    (state) => state.createTransaction
+  );
 
   const {
     register,
@@ -50,8 +53,8 @@ export const TransactionForm = () => {
     reset();
   };
 
-  if (isError) {
-    return <ErrorMessage>{translate(TEXT.general.serverError)}</ErrorMessage>;
+  if (error) {
+    return <ErrorMessage>{error}</ErrorMessage>;
   }
 
   return (
