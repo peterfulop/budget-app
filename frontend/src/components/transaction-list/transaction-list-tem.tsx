@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
-import { Dispatch } from 'redux';
+import { useDispatch } from 'react-redux';
 import DeleteIcon from '../../assets/delete-icon.svg';
-import { DeleteTransactionActions } from '../../state/actions/delete-transaction-actions';
+import { transactionActions } from '../../state/slices/transaction-slice';
 import { theme } from '../../theme';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
@@ -20,9 +20,6 @@ interface ITransactionListItem {
   name: string;
   amount: number;
   income: boolean;
-  deleteTransaction: (
-    id: string
-  ) => (dispatch: Dispatch<DeleteTransactionActions>) => Promise<void>;
 }
 
 export const TransactionListItem: FC<ITransactionListItem> = ({
@@ -30,13 +27,14 @@ export const TransactionListItem: FC<ITransactionListItem> = ({
   name,
   amount,
   income,
-  deleteTransaction,
 }) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState<boolean>(false);
 
+  const dispatch = useDispatch();
+
   const handleClick = () => {
     setDeleteConfirmation(false);
-    deleteTransaction(id);
+    dispatch(transactionActions.deleteTransaction({ id }));
   };
 
   return (

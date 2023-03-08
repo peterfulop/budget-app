@@ -11,16 +11,20 @@ import {
 } from './transaction-form.styled';
 
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useDispatch } from 'react-redux';
 import { useActions } from '../../hooks/use-actions';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
-import { ErrorMessage } from '../common-styled-components/error-message.styled';
+import { transactionActions } from '../../state/slices/transaction-slice';
 import { transactionSchema } from './validation/transaction.schema';
 
 export const TransactionForm = () => {
   const { createTransaction } = useActions();
-  const { error, loading } = useTypedSelector(
-    (state) => state.createTransaction
-  );
+  // const { error, loading } = useTypedSelector(
+  //   (state) => state.createTransaction
+  // );
+  const dispatch = useDispatch();
+
+  const transactions = useTypedSelector((state) => state.transaction);
 
   const {
     register,
@@ -43,19 +47,32 @@ export const TransactionForm = () => {
 
   const onSubmitIncome = () => {
     const values = switchTransactionType(true);
-    createTransaction(values);
+    dispatch(
+      transactionActions.addTransaction({
+        transaction: {
+          ...values,
+        },
+      })
+    );
     reset();
   };
 
   const onSubmitExpense = () => {
     const values = switchTransactionType(false);
-    createTransaction(values);
+    // createTransaction(values);
+    dispatch(
+      transactionActions.addTransaction({
+        transaction: {
+          ...values,
+        },
+      })
+    );
     reset();
   };
 
-  if (error) {
-    return <ErrorMessage>{error}</ErrorMessage>;
-  }
+  // if (error) {
+  //   return <ErrorMessage>{error}</ErrorMessage>;
+  // }
 
   return (
     <Form>
@@ -69,7 +86,7 @@ export const TransactionForm = () => {
           type='text'
           tabIndex={1}
           placeholder={translate(TEXT.transactionForm.inputs.name.placeholder)}
-          disabled={loading}
+          // disabled={loading}
           style={{
             border: `${formStateErrors.name?.message ? '1px solid red' : ''}`,
           }}
@@ -85,7 +102,7 @@ export const TransactionForm = () => {
           <button
             type='button'
             id='submit-income'
-            disabled={loading}
+            // disabled={loading}
             onClick={handleSubmit(onSubmitIncome)}
           >
             {translate(TEXT.transactionForm.buttons.income)}
@@ -98,7 +115,7 @@ export const TransactionForm = () => {
               TEXT.transactionForm.inputs.amount.placeholder
             )}
             {...register('amount', { valueAsNumber: true })}
-            disabled={loading}
+            // disabled={loading}
             style={{
               border: `${
                 formStateErrors.amount?.message ? '1px solid red' : ''
@@ -108,7 +125,7 @@ export const TransactionForm = () => {
           <button
             type='button'
             id='submit-expense'
-            disabled={loading}
+            // disabled={loading}
             onClick={handleSubmit(onSubmitExpense)}
           >
             {translate(TEXT.transactionForm.buttons.expense)}

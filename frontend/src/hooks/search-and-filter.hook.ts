@@ -39,7 +39,7 @@ export const useSearchAndFilterTransactions = (
     const preFiltered = searchResult ? searchResult : filtered;
     const sortedTransactions = preFiltered.sort(
       (a: Transaction, b: Transaction) =>
-        Date.parse(b.createdAt) - Date.parse(a.createdAt)
+        Date.parse(b?.createdAt as string) - Date.parse(a.createdAt as string)
     );
     setFilteredTransactions(sortedTransactions);
   };
