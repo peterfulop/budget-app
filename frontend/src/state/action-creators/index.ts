@@ -43,6 +43,8 @@ export const createTransaction = (
         createTransactionInput
       );
       const transaction = data as Transaction;
+      console.log('created', transaction);
+
       dispatch(
         transactionActions.replacePendingTransaction({
           transaction,

@@ -14,46 +14,20 @@ import { TransactionList } from '../components/transaction-list/transaction-list
 import { MostExpensiveTransaction } from '../components/transaction-statisctics/most-expensive-transaction';
 import { Top3Action } from '../components/transaction-statisctics/top-3-actions';
 import { useSearchAndFilterTransactions } from '../hooks/search-and-filter.hook';
+import { useTransactionSubscriptions } from '../hooks/use-transaction-subscriptions';
 import { useTypedSelector } from '../hooks/use-typed-selector';
-import {
-  createTransaction,
-  deleteTransaction,
-  fetchTransactionsData,
-} from '../state/action-creators';
-
-let isInitial = true;
+import { fetchTransactionsData } from '../state/action-creators';
 
 export const HomePage = () => {
   const dispatch = useDispatch();
-
   const notification = useTypedSelector((state) => state.ui.notification);
-
-  const { removedTransactionId, newTransaction, transactions } =
-    useTypedSelector((state) => state.transaction);
+  const { transactions } = useTypedSelector((state) => state.transaction);
 
   useEffect(() => {
     dispatch(fetchTransactionsData() as any);
   }, [dispatch]);
 
-  useEffect(() => {
-    if (isInitial) {
-      isInitial = false;
-      return;
-    }
-    if (newTransaction) {
-      dispatch(createTransaction(newTransaction) as any);
-    }
-  }, [newTransaction, dispatch]);
-
-  useEffect(() => {
-    if (isInitial) {
-      isInitial = false;
-      return;
-    }
-    if (removedTransactionId) {
-      dispatch(deleteTransaction(removedTransactionId) as any);
-    }
-  }, [removedTransactionId, dispatch]);
+  useTransactionSubscriptions();
 
   const {
     filteredTransactions,
