@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
-import { CreateTransactionInput } from '../../types';
+import { CreateTransactionInput } from '../../types/interfaces';
 import {
   AmountInput,
   AmountInputBox,
@@ -11,13 +11,14 @@ import {
 } from './transaction-form.styled';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { transactionApi } from '../../redux/services/transactions';
-import { ErrorMessage } from '../common-styled-components/error-message.styled';
+import { useActions } from '../../hooks/use-actions';
+import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { transactionSchema } from './validation/transaction.schema';
 
 export const TransactionForm = () => {
-  const [createTransaction, { isLoading: loading, isError }] =
-    transactionApi.useCreateTransactionMutation();
+  const { createTransaction, getTransactions } = useActions();
+
+  const { isLoading } = useTypedSelector((state) => state.asyncProcess);
 
   const {
     register,
@@ -50,10 +51,6 @@ export const TransactionForm = () => {
     reset();
   };
 
-  if (isError) {
-    return <ErrorMessage>{translate(TEXT.general.serverError)}</ErrorMessage>;
-  }
-
   return (
     <Form>
       <h2>{translate(TEXT.transactionForm.title)}</h2>
@@ -66,7 +63,7 @@ export const TransactionForm = () => {
           type='text'
           tabIndex={1}
           placeholder={translate(TEXT.transactionForm.inputs.name.placeholder)}
-          disabled={loading}
+          disabled={isLoading}
           style={{
             border: `${formStateErrors.name?.message ? '1px solid red' : ''}`,
           }}
@@ -82,7 +79,7 @@ export const TransactionForm = () => {
           <button
             type='button'
             id='submit-income'
-            disabled={loading}
+            disabled={isLoading}
             onClick={handleSubmit(onSubmitIncome)}
           >
             {translate(TEXT.transactionForm.buttons.income)}
@@ -95,7 +92,7 @@ export const TransactionForm = () => {
               TEXT.transactionForm.inputs.amount.placeholder
             )}
             {...register('amount', { valueAsNumber: true })}
-            disabled={loading}
+            disabled={isLoading}
             style={{
               border: `${
                 formStateErrors.amount?.message ? '1px solid red' : ''
@@ -105,7 +102,7 @@ export const TransactionForm = () => {
           <button
             type='button'
             id='submit-expense'
-            disabled={loading}
+            disabled={isLoading}
             onClick={handleSubmit(onSubmitExpense)}
           >
             {translate(TEXT.transactionForm.buttons.expense)}

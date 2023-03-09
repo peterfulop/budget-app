@@ -1,28 +1,19 @@
 import { FC } from 'react';
-import { transactionApi } from '../../redux/services/transactions';
+import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
-import { Transaction } from '../../types';
-import { ErrorMessage } from '../common-styled-components/error-message.styled';
 import { TransactionListItem } from './transaction-list-tem';
 import { List, ListItem } from './transaction-list.styled';
 
-interface ITransactionList {
-  transactions: Transaction[];
-}
-
-export const TransactionList: FC<ITransactionList> = ({ transactions }) => {
-  const [deleteTransaction, { isError }] =
-    transactionApi.useDeleteTransactionMutation();
-
-  if (isError) {
-    return <ErrorMessage>{translate(TEXT.general.serverError)}</ErrorMessage>;
-  }
+export const TransactionList: FC = () => {
+  const { filteredTransactions } = useTypedSelector(
+    (state) => state.transaction
+  );
 
   return (
     <List>
-      {!isError && transactions?.length ? (
-        transactions.map((trans, index) => {
+      {filteredTransactions?.length ? (
+        filteredTransactions.map((trans, index) => {
           return (
             <TransactionListItem
               key={index}
@@ -30,7 +21,6 @@ export const TransactionList: FC<ITransactionList> = ({ transactions }) => {
               name={trans.name}
               amount={trans.amount}
               income={trans.income}
-              deleteTransaction={deleteTransaction}
             />
           );
         })

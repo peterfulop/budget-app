@@ -1,18 +1,16 @@
 import { FC, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useTypedSelector } from '../../hooks/use-typed-selector';
+import { transactionActions } from '../../state/slices/transaction-slice';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
-import { FilterState } from '../../types';
+import { FilterState } from '../../types/enums';
 import { ButtonGroup } from './cash-flow-filter.styled';
 
-interface IFilterButtonGroup {
-  filterState: FilterState;
-  setFilterState: React.Dispatch<React.SetStateAction<FilterState>>;
-}
+export const FilterButtonGroup: FC = () => {
+  const dispatch = useDispatch();
+  const { filterState } = useTypedSelector((state) => state.transaction);
 
-export const FilterButtonGroup: FC<IFilterButtonGroup> = ({
-  filterState,
-  setFilterState,
-}) => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     const state = e.currentTarget.id as FilterState;
@@ -23,8 +21,12 @@ export const FilterButtonGroup: FC<IFilterButtonGroup> = ({
       }
     });
     e.currentTarget.classList.add('active');
-    setFilterState(state);
+    dispatch(transactionActions.setFilterState(state));
   };
+
+  useEffect(() => {
+    dispatch(transactionActions.filterAndSearchTransactions());
+  }, [filterState]);
 
   useEffect(() => {
     const button = document.getElementById(filterState);

@@ -3,16 +3,12 @@ import { Doughnut } from 'react-chartjs-2';
 import { useCashflowTracking } from '../../hooks/cashflow-tracking.hook';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
-import { Transaction } from '../../types';
 import { ChartBox, PercentageBox } from './chart.styled';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const DougnutChart = (props: { transactions: Transaction[] }) => {
-  const { transactions } = props;
-  const { budget, spentSoFar, remaining } = useCashflowTracking({
-    transactions,
-  });
+export const DougnutChart = () => {
+  const { budget, spentSoFar, remaining } = useCashflowTracking();
 
   const data = {
     datasets: [

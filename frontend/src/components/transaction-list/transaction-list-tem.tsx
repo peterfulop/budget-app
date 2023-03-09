@@ -1,13 +1,7 @@
-import {
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-  FetchBaseQueryMeta,
-  MutationDefinition,
-} from '@reduxjs/toolkit/dist/query';
-import { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { FC, useState } from 'react';
 import DeleteIcon from '../../assets/delete-icon.svg';
+import { useActions } from '../../hooks/use-actions';
+import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { theme } from '../../theme';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
@@ -26,21 +20,6 @@ interface ITransactionListItem {
   name: string;
   amount: number;
   income: boolean;
-  deleteTransaction: MutationTrigger<
-    MutationDefinition<
-      any,
-      BaseQueryFn<
-        string | FetchArgs,
-        unknown,
-        FetchBaseQueryError,
-        {},
-        FetchBaseQueryMeta
-      >,
-      'Transactions',
-      any,
-      'transactionApi'
-    >
-  >;
 }
 
 export const TransactionListItem: FC<ITransactionListItem> = ({
@@ -48,9 +27,11 @@ export const TransactionListItem: FC<ITransactionListItem> = ({
   name,
   amount,
   income,
-  deleteTransaction,
 }) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState<boolean>(false);
+  const { deleteTransaction } = useActions();
+
+  const { isLoading } = useTypedSelector((state) => state.asyncProcess);
 
   const handleClick = () => {
     setDeleteConfirmation(false);
@@ -72,7 +53,10 @@ export const TransactionListItem: FC<ITransactionListItem> = ({
         </ListItemData>
       )}
       {!deleteConfirmation ? (
-        <DeleteBtn onClick={() => setDeleteConfirmation(true)}>
+        <DeleteBtn
+          onClick={() => setDeleteConfirmation(true)}
+          disabled={isLoading}
+        >
           <img src={DeleteIcon} alt={translate(TEXT.buttons.delete)} />
         </DeleteBtn>
       ) : (
