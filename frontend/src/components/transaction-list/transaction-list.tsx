@@ -1,27 +1,23 @@
 import { FC } from 'react';
+import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
-import { Transaction } from '../../types';
 import { TransactionListItem } from './transaction-list-tem';
 import { List, ListItem } from './transaction-list.styled';
 
-interface ITransactionList {
-  transactions: Transaction[];
-}
-
-export const TransactionList: FC<ITransactionList> = ({ transactions }) => {
-  // if (error) {
-  //   return <ErrorMessage>{translate(TEXT.general.serverError)}</ErrorMessage>;
-  // }
+export const TransactionList: FC = () => {
+  const { filteredTransactions } = useTypedSelector(
+    (state) => state.transaction
+  );
 
   return (
     <List>
-      {transactions?.length ? (
-        transactions.map((trans, index) => {
+      {filteredTransactions?.length ? (
+        filteredTransactions.map((trans, index) => {
           return (
             <TransactionListItem
               key={index}
-              id={trans.id as string}
+              id={trans.id}
               name={trans.name}
               amount={trans.amount}
               income={trans.income}

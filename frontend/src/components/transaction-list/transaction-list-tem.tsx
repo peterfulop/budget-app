@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import DeleteIcon from '../../assets/delete-icon.svg';
-import { transactionActions } from '../../state/slices/transaction-slice';
+import { deleteTransaction } from '../../state/action-creators';
 import { theme } from '../../theme';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
@@ -34,7 +34,7 @@ export const TransactionListItem: FC<ITransactionListItem> = ({
 
   const handleClick = () => {
     setDeleteConfirmation(false);
-    dispatch(transactionActions.deleteTransaction({ id }));
+    dispatch(deleteTransaction(id) as any);
   };
 
   return (

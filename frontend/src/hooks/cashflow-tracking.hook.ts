@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Transaction } from '../types';
+import { useTypedSelector } from './use-typed-selector';
 
-export const useCashflowTracking = (props: { transactions: Transaction[] }) => {
-  const { transactions } = props;
+export const useCashflowTracking = () => {
+  const { transactions } = useTypedSelector((state) => state.transaction);
 
   const [budget, setBudget] = useState<number>(0);
   const [spentSoFar, setSpentSoFar] = useState<number>(0);

@@ -5,7 +5,9 @@ interface IUiSliceInitialState {
   notification: INotification | null;
 }
 
-const initialState: IUiSliceInitialState = { notification: null };
+const initialState: IUiSliceInitialState = {
+  notification: null,
+};
 
 const uiSlice = createSlice({
   name: 'ui',

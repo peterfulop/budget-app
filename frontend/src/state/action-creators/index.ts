@@ -1,96 +1,97 @@
 import axios from 'axios';
-import { Dispatch } from 'redux';
 import { API, CreateTransactionInput, Transaction } from '../../types';
-import { CreateTransactionActionType } from '../action-types/create-transaction-action-types';
-import { DeleteTransactionActionType } from '../action-types/delete-transaction-action-types';
-import { DeleteTransactionActions } from '../actions/delete-transaction-actions';
 import { transactionActions } from '../slices/transaction-slice';
 import { uiActions } from '../slices/ui-slice';
-
-// export const getTransactions = () => {
-//   return async (dispatch: Dispatch<GetTransactionActions>) => {
-//     dispatch({
-//       type: GetTransactionActionType.GET_TRANSACTIONS,
-//     });
-//     try {
-//       const { data } = await axios.get(
-//         API.BASE_URL.concat(API.GET_TRANSACTIONS)
-//       );
-//       const transactions = data as Transaction[];
-//       dispatch({
-//         type: GetTransactionActionType.GET_TRANSACTIONS_SUCCESS,
-//         payload: transactions,
-//       });
-//     } catch (error: any) {
-//       dispatch({
-//         type: GetTransactionActionType.GET_TRANSACTIONS_ERROR,
-//         payload: error.message,
-//       });
-//     }
-//   };
-// };
 
 export const createTransaction = (
   createTransactionInput: CreateTransactionInput
 ) => {
-  return async (dispatch: Dispatch<any>) => {
-    dispatch({
-      type: CreateTransactionActionType.CREATE_TRANSACTIONS,
-    });
+  return async (dispatch: any) => {
+    dispatch(
+      uiActions.showNotification({
+        status: 'loading',
+        title: 'New transaction',
+        message: 'Creating new transaction ...',
+      })
+    );
     try {
       const { data } = await axios.post(
         API.BASE_URL.concat(API.CREATE_TRANSACTION),
         createTransactionInput
       );
       const transaction = data as Transaction;
-      console.log('created', transaction);
-
       dispatch(
-        transactionActions.replacePendingTransaction({
+        transactionActions.addTransaction({
           transaction,
         })
       );
+      dispatch(
+        uiActions.showNotification({
+          status: 'success',
+          title: 'New transaction',
+          message: 'Transaction successfully created!',
+        })
+      );
+      dispatch(transactionActions.filterAndSearchTransactions());
     } catch (error: any) {
-      dispatch({
-        type: CreateTransactionActionType.CREATE_TRANSACTIONS_ERROR,
-        payload: error.message,
-      });
+      dispatch(
+        uiActions.showNotification({
+          status: 'error',
+          title: 'Error',
+          message: 'Error on create transaction!',
+        })
+      );
     }
   };
 };
 
 export const deleteTransaction = (id: string) => {
-  return async (dispatch: Dispatch<DeleteTransactionActions>) => {
-    dispatch({
-      type: DeleteTransactionActionType.DELETE_TRANSACTIONS,
-    });
+  return async (dispatch: any) => {
+    dispatch(
+      uiActions.showNotification({
+        status: 'loading',
+        title: 'Delete transaction',
+        message: 'Deleting transaction ...',
+      })
+    );
     try {
       const { data } = await axios.delete(
         API.BASE_URL.concat(API.DELETE_TRANSACTION.replace(':id', id))
       );
-      const { success } = data;
-      dispatch({
-        type: DeleteTransactionActionType.DELETE_TRANSACTIONS_SUCCESS,
-        payload: success,
-      });
+      if (data.success) {
+        dispatch(
+          transactionActions.deleteTransaction({
+            id,
+          })
+        );
+        dispatch(
+          uiActions.showNotification({
+            status: 'success',
+            title: 'Delete transaction',
+            message: 'Transaction successfully deleted!',
+          })
+        );
+        dispatch(transactionActions.filterAndSearchTransactions());
+      }
     } catch (error: any) {
-      dispatch({
-        type: DeleteTransactionActionType.DELETE_TRANSACTIONS_ERROR,
-        payload: error.message,
-      });
+      dispatch(
+        uiActions.showNotification({
+          status: 'error',
+          title: 'Error',
+          message: 'Error on deleting transaction!',
+        })
+      );
     }
   };
 };
-
-/////////////////////////////////////////
 
 export const getTransactions = () => {
   return async (dispatch: any) => {
     dispatch(
       uiActions.showNotification({
-        status: 'pending',
-        title: 'Sending ...',
-        message: 'Sending cart data!',
+        status: 'loading',
+        title: 'Get transactions',
+        message: 'Fetching data ...',
       })
     );
     const sendRequest = async () => {
@@ -108,41 +109,19 @@ export const getTransactions = () => {
           transactions,
         })
       );
+      dispatch(
+        uiActions.showNotification({
+          status: 'success',
+          title: 'Transactions',
+          message: 'Fetching data is ready!',
+        })
+      );
     } catch (error: any) {
       dispatch(
         uiActions.showNotification({
           status: 'error',
           title: 'Error!',
-          message: 'Sending cart data failed!',
-        })
-      );
-    }
-  };
-};
-
-export const fetchTransactionsData = () => {
-  return async (dispatch: any) => {
-    const fetchData = async () => {
-      const response = await fetch(API.BASE_URL.concat(API.GET_TRANSACTIONS));
-      if (!response.ok) {
-        throw new Error('Fetching cart data failed!');
-      }
-      return await response.json();
-    };
-    try {
-      const data = await fetchData();
-      const transactions = data as Transaction[];
-      dispatch(
-        transactionActions.replaceTransactions({
-          transactions,
-        })
-      );
-    } catch (error) {
-      dispatch(
-        uiActions.showNotification({
-          status: 'error',
-          title: 'Error!',
-          message: 'Sending cart data failed!',
+          message: 'Fetching transactions failed!',
         })
       );
     }

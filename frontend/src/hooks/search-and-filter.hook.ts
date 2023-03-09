@@ -1,20 +1,11 @@
 import { useEffect, useState } from 'react';
 import { FilterState, Transaction } from '../types';
 
-type SearchAndFilterTransactionProps = {
-  transactions: Transaction[] | undefined;
-};
-
-export const useSearchAndFilterTransactions = (
-  props: SearchAndFilterTransactionProps
-) => {
-  const { transactions } = props;
-
+export const useSearchAndFilterTransactions = (transactions: Transaction[]) => {
   const [filterState, setFilterState] = useState<FilterState>(FilterState.ALL);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
-  const [filteredTransactions, setFilteredTransactions] = useState<
-    Transaction[]
-  >([]);
+  const [filteredTransactions, setFilteredTransactions] =
+    useState<Transaction[]>(transactions);
 
   useEffect(() => {
     switchFilterState();
@@ -22,26 +13,28 @@ export const useSearchAndFilterTransactions = (
 
   const switchFilterState = () => {
     let filtered: Transaction[] = [];
-
-    if (transactions)
-      switch (filterState) {
-        case FilterState.EXPENSES:
-          filtered = transactions.filter((trans) => !trans.income);
-          break;
-        case FilterState.INCOMES:
-          filtered = transactions.filter((trans) => trans.income);
-          break;
-        case FilterState.ALL:
-          filtered = [...transactions];
-          break;
-      }
+    switch (filterState) {
+      case FilterState.EXPENSES:
+        filtered = transactions.filter((trans) => !trans.income);
+        break;
+      case FilterState.INCOMES:
+        filtered = transactions.filter((trans) => trans.income);
+        break;
+      case FilterState.ALL:
+        filtered = [...transactions];
+        break;
+    }
     const searchResult = searchByUserInput(filtered);
+    console.log('searchResult', searchResult);
+
     const preFiltered = searchResult ? searchResult : filtered;
+    console.log('preFiltered', preFiltered);
     const sortedTransactions = preFiltered.sort(
       (a: Transaction, b: Transaction) =>
-        Date.parse(b?.createdAt as string) - Date.parse(a.createdAt as string)
+        Number(b.createdAt) - Number(a.createdAt)
     );
-    setFilteredTransactions(sortedTransactions);
+    console.log('sortedTransactions', sortedTransactions);
+    setFilteredTransactions([...sortedTransactions]);
   };
 
   const searchByUserInput = (transactions: Transaction[]) => {

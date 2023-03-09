@@ -12,7 +12,7 @@ export enum Method {
 
 export enum Status {
   LOADING = 'loading',
-  SUCCESS = 'siccess',
+  SUCCESS = 'success',
   ERROR = 'error',
 }
 
@@ -28,11 +28,11 @@ export enum FilterState {
 }
 
 export type Transaction = {
-  id?: string;
+  id: string;
   name: string;
   amount: number;
   income: boolean;
-  createdAt?: string;
+  createdAt: string;
 };
 
 export type CreateTransactionInput = {

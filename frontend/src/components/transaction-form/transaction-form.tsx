@@ -12,20 +12,11 @@ import {
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
-import { useActions } from '../../hooks/use-actions';
-import { useTypedSelector } from '../../hooks/use-typed-selector';
-import { transactionActions } from '../../state/slices/transaction-slice';
+import { createTransaction } from '../../state/action-creators';
 import { transactionSchema } from './validation/transaction.schema';
 
 export const TransactionForm = () => {
-  const { createTransaction } = useActions();
-  // const { error, loading } = useTypedSelector(
-  //   (state) => state.createTransaction
-  // );
   const dispatch = useDispatch();
-
-  const transactions = useTypedSelector((state) => state.transaction);
-
   const {
     register,
     handleSubmit,
@@ -47,32 +38,16 @@ export const TransactionForm = () => {
 
   const onSubmitIncome = () => {
     const values = switchTransactionType(true);
-    dispatch(
-      transactionActions.addTransaction({
-        transaction: {
-          ...values,
-        },
-      })
-    );
+    dispatch(createTransaction(values) as any);
     reset();
   };
 
   const onSubmitExpense = () => {
     const values = switchTransactionType(false);
-    // createTransaction(values);
-    dispatch(
-      transactionActions.addTransaction({
-        transaction: {
-          ...values,
-        },
-      })
-    );
+    dispatch(createTransaction(values) as any);
+
     reset();
   };
-
-  // if (error) {
-  //   return <ErrorMessage>{error}</ErrorMessage>;
-  // }
 
   return (
     <Form>
