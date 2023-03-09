@@ -49,15 +49,19 @@ export const AmountBox = styled.div({
   fontFamily: theme.fonts.alegreyaSans,
 });
 
-export const DeleteBtn = styled.div({
+export const DeleteBtn = styled.button({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: '7px',
   borderRadius: '50%',
+  border: 'none',
   background: theme.colors.darkGray,
   height: '22px',
   cursor: 'pointer',
+  ':disabled': {
+    background: theme.colors.lightGray,
+  },
 });
 
 export const DeleteConfirmationBox = styled.div({

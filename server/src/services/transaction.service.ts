@@ -34,7 +34,11 @@ export const transactionServiceFactory = (): TransactionService => {
   };
   const getTransactions: TransactionService['getTransactions'] = async () => {
     try {
-      return await prisma.transaction.findMany();
+      return await prisma.transaction.findMany({
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
     } catch (error: any) {
       throw new Error(error.message);
     }

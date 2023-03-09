@@ -1,9 +1,7 @@
-import { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useCreateTransaction } from '../../hooks/create-transaction.hook';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
-import { CreateTransactionInput, ITransactions } from '../../types';
+import { CreateTransactionInput } from '../../types/interfaces';
 import {
   AmountInput,
   AmountInputBox,
@@ -13,27 +11,24 @@ import {
 } from './transaction-form.styled';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ErrorMessage } from '../common-styled-components/error-message.styled';
+import { useActions } from '../../hooks/use-actions';
+import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { transactionSchema } from './validation/transaction.schema';
 
-export const TransactionForm: FC<ITransactions> = ({ refetch }) => {
-  const { loading, errors, data, createTransaction, setErrors } =
-    useCreateTransaction();
+export const TransactionForm = () => {
+  const { createTransaction, getTransactions } = useActions();
+
+  const { isLoading } = useTypedSelector((state) => state.asyncProcess);
 
   const {
     register,
     handleSubmit,
     formState: { errors: formStateErrors },
     getValues,
+    reset,
   } = useForm<CreateTransactionInput>({
     resolver: yupResolver(transactionSchema),
   });
-
-  useEffect(() => {
-    if (!loading && data) {
-      refetch();
-    }
-  }, [data]);
 
   const switchTransactionType = (isIncome: boolean): CreateTransactionInput => {
     const { amount, name } = getValues();
@@ -44,18 +39,20 @@ export const TransactionForm: FC<ITransactions> = ({ refetch }) => {
     };
   };
 
-  const onSubmitIncome = async () => {
+  const onSubmitIncome = () => {
     const values = switchTransactionType(true);
-    await createTransaction(values);
+    createTransaction(values);
+    reset();
   };
 
-  const onSubmitExpense = async () => {
+  const onSubmitExpense = () => {
     const values = switchTransactionType(false);
-    await createTransaction(values);
+    createTransaction(values);
+    reset();
   };
 
   return (
-    <Form onChange={() => setErrors(null)}>
+    <Form>
       <h2>{translate(TEXT.transactionForm.title)}</h2>
       <FormField>
         <label htmlFor='input-name'>
@@ -66,7 +63,7 @@ export const TransactionForm: FC<ITransactions> = ({ refetch }) => {
           type='text'
           tabIndex={1}
           placeholder={translate(TEXT.transactionForm.inputs.name.placeholder)}
-          disabled={loading}
+          disabled={isLoading}
           style={{
             border: `${formStateErrors.name?.message ? '1px solid red' : ''}`,
           }}
@@ -82,7 +79,7 @@ export const TransactionForm: FC<ITransactions> = ({ refetch }) => {
           <button
             type='button'
             id='submit-income'
-            disabled={loading}
+            disabled={isLoading}
             onClick={handleSubmit(onSubmitIncome)}
           >
             {translate(TEXT.transactionForm.buttons.income)}
@@ -95,7 +92,7 @@ export const TransactionForm: FC<ITransactions> = ({ refetch }) => {
               TEXT.transactionForm.inputs.amount.placeholder
             )}
             {...register('amount', { valueAsNumber: true })}
-            disabled={loading}
+            disabled={isLoading}
             style={{
               border: `${
                 formStateErrors.amount?.message ? '1px solid red' : ''
@@ -105,7 +102,7 @@ export const TransactionForm: FC<ITransactions> = ({ refetch }) => {
           <button
             type='button'
             id='submit-expense'
-            disabled={loading}
+            disabled={isLoading}
             onClick={handleSubmit(onSubmitExpense)}
           >
             {translate(TEXT.transactionForm.buttons.expense)}
@@ -113,23 +110,6 @@ export const TransactionForm: FC<ITransactions> = ({ refetch }) => {
         </AmountInputBox>
         <span>{formStateErrors.amount?.message}</span>
       </FormField>
-      {errors && errors?.length > 0 && (
-        <>
-          {errors.map((error, index) => {
-            return (
-              <ErrorMessage
-                key={index}
-                onClick={(e) => {
-                  setErrors(null);
-                  e.currentTarget.style.display = 'none';
-                }}
-              >
-                {error}
-              </ErrorMessage>
-            );
-          })}
-        </>
-      )}
     </Form>
   );
 };

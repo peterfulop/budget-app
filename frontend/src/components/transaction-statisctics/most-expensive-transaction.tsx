@@ -1,19 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
 import { Currency } from '../../translate/translate.scema';
-import { Transaction } from '../../types';
+import { Transaction } from '../../types/interfaces';
 import { thousandSeparator } from '../../utils/thousand-separator';
 import { MostExpensiveContainer } from './statistic.styled';
 
-type MostExpensiveTransactionProps = {
-  transactions: Transaction[];
-};
-
-export const MostExpensiveTransaction = (
-  props: MostExpensiveTransactionProps
-) => {
-  const { transactions } = props;
+export const MostExpensiveTransaction = () => {
+  const { transactions } = useTypedSelector((state) => state.transaction);
 
   const [mostExpensiveAction, setMostExpensiveAction] = useState<
     Transaction | undefined

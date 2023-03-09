@@ -45,6 +45,21 @@ type TransactionForm = {
   };
 };
 
+type NotificationType = {
+  loading: {
+    title: Content;
+    message: Content;
+  };
+  success: {
+    title: Content;
+    message: Content;
+  };
+  error: {
+    title: Content;
+    message: Content;
+  };
+};
+
 export type Text = {
   pages: {
     home: {
@@ -78,4 +93,9 @@ export type Text = {
     noExpenses: Content;
   };
   labels: Record<BaseLabels, Content>;
+  notifications: {
+    getTransactions: NotificationType;
+    createTransaction: NotificationType;
+    deleteTransaction: NotificationType;
+  };
 };

@@ -1,10 +1,11 @@
 import { FC, useState } from 'react';
 import DeleteIcon from '../../assets/delete-icon.svg';
+import { useActions } from '../../hooks/use-actions';
+import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { theme } from '../../theme';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
 import { Currency } from '../../translate/translate.scema';
-import { ITransactions } from '../../types';
 import { thousandSeparator } from '../../utils/thousand-separator';
 import {
   AmountBox,
@@ -14,12 +15,11 @@ import {
   ListItemData,
 } from './transaction-list.styled';
 
-interface ITransactionListItem extends ITransactions {
+interface ITransactionListItem {
   id: string;
   name: string;
   amount: number;
   income: boolean;
-  deleteTransaction: (input: { id: string }) => Promise<void>;
 }
 
 export const TransactionListItem: FC<ITransactionListItem> = ({
@@ -27,23 +27,16 @@ export const TransactionListItem: FC<ITransactionListItem> = ({
   name,
   amount,
   income,
-  refetch,
-  deleteTransaction,
 }) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState<boolean>(false);
+  const { deleteTransaction } = useActions();
 
-  // const { success, loading, deleteTransaction } = useDeleteTransaction();
+  const { isLoading } = useTypedSelector((state) => state.asyncProcess);
 
-  const handleClick = async () => {
+  const handleClick = () => {
     setDeleteConfirmation(false);
-    await deleteTransaction({ id });
+    deleteTransaction(id);
   };
-
-  // useEffect(() => {
-  //   if (!loading && success) {
-  //     refetch();
-  //   }
-  // }, [success]);
 
   return (
     <ListItem style={{ padding: `${deleteConfirmation ? '9px 24px' : ''}` }}>
@@ -60,7 +53,10 @@ export const TransactionListItem: FC<ITransactionListItem> = ({
         </ListItemData>
       )}
       {!deleteConfirmation ? (
-        <DeleteBtn onClick={() => setDeleteConfirmation(true)}>
+        <DeleteBtn
+          onClick={() => setDeleteConfirmation(true)}
+          disabled={isLoading}
+        >
           <img src={DeleteIcon} alt={translate(TEXT.buttons.delete)} />
         </DeleteBtn>
       ) : (

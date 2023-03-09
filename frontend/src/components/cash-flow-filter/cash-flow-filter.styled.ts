@@ -8,6 +8,9 @@ export const FilterSection = styled.div({
   margin: '36px 0 27px 0',
   gap: '30px',
   flexWrap: 'wrap',
+  '.active': {
+    border: `1px solid ${theme.colors.darkGray}`,
+  },
 });
 
 export const SearchInput = styled.input({
@@ -21,6 +24,9 @@ export const SearchInput = styled.input({
   color: theme.colors.darkGray,
   fontFamily: theme.fonts.alegreyaSans,
   border: `1px solid ${theme.colors.lightGray}`,
+  ':focus': {
+    outline: 'none',
+  },
 });
 
 export const ButtonGroup = styled.div({
