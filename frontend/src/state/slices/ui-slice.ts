@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { INotification } from '../../types';
+import { INotificationAction } from '../actions/ui-actions';
 
 interface IUiSliceInitialState {
   notification: INotification | null;
@@ -13,12 +14,13 @@ const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    showNotification(state, action) {
-      state.notification = {
-        status: action.payload.status,
-        title: action.payload.title,
-        message: action.payload.message,
-      };
+    showNotification(state, action: INotificationAction) {
+      if (action.payload)
+        state.notification = {
+          status: action.payload.status,
+          title: action.payload.title,
+          message: action.payload.message,
+        };
     },
   },
 });

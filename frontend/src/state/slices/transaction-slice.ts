@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { FilterState, Transaction } from '../../types';
+import {
+  IReplaceTransactionsAction,
+  ISetFilterStateAction,
+  ISetSearchKeywordAction,
+} from '../actions/transaction-actions';
 
 interface ITransactionSliceInitialState {
   transactions: Transaction[];
@@ -15,51 +20,19 @@ const initialState: ITransactionSliceInitialState = {
   searchKeyword: '',
 };
 
-interface IReplaceTransactionAction {
-  payload: { transactions: Transaction[] };
-}
-
-interface IAddTransactionAction {
-  payload: {
-    transaction: Transaction;
-  };
-}
-
 const transactionSlice = createSlice({
-  name: 'transactions',
+  name: 'transaction',
   initialState,
   reducers: {
-    replaceTransactions(state, action: IReplaceTransactionAction) {
-      state.transactions = [...action.payload.transactions];
-      state.filteredTransactions = [...action.payload.transactions];
+    replaceTransactions(state, action: IReplaceTransactionsAction) {
+      state.transactions = [...action.payload];
+      state.filteredTransactions = [...action.payload];
     },
-    addTransaction(state, action: IAddTransactionAction) {
-      const newTransaction: Transaction = {
-        ...action.payload.transaction,
-      };
-      const newTransactions = [newTransaction, ...state.transactions];
-      const sortedTransactions = newTransactions.sort(
-        (a: Transaction, b: Transaction) =>
-          Number(b.createdAt) - Number(a.createdAt)
-      );
-      state.transactions = [...sortedTransactions];
-    },
-    deleteTransaction(state, action: { payload: { id: string } }) {
-      const removeId = action.payload.id;
-      const filteredState = state.transactions.filter(
-        (transaction) => transaction.id !== removeId
-      );
-      const sortedTransactions = filteredState.sort(
-        (a: Transaction, b: Transaction) =>
-          Number(b.createdAt) - Number(a.createdAt)
-      );
-      state.transactions = [...sortedTransactions];
-    },
-    setFilterState(state, action: { payload: FilterState }) {
+    setFilterState(state, action: ISetFilterStateAction) {
       state.filterState = action.payload;
     },
-    setSearchKeyword(state, action: { payload: { searchKeyword: string } }) {
-      state.searchKeyword = action.payload.searchKeyword;
+    setSearchKeyword(state, action: ISetSearchKeywordAction) {
+      state.searchKeyword = action.payload;
     },
     filterAndSearchTransactions(state) {
       let filtered: Transaction[] = [];
@@ -75,7 +48,6 @@ const transactionSlice = createSlice({
           break;
       }
       let searchResult: Transaction[] = [];
-
       const keyword = state.searchKeyword;
       if (keyword) {
         const searchByName = filtered.filter((trans) => {

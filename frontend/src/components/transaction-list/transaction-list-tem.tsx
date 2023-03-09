@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import DeleteIcon from '../../assets/delete-icon.svg';
-import { deleteTransaction } from '../../state/action-creators';
+import { useActions } from '../../hooks/use-actions';
+import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { theme } from '../../theme';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
@@ -29,12 +29,13 @@ export const TransactionListItem: FC<ITransactionListItem> = ({
   income,
 }) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState<boolean>(false);
+  const { deleteTransaction } = useActions();
 
-  const dispatch = useDispatch();
+  const { isLoading } = useTypedSelector((state) => state.asyncProcess);
 
   const handleClick = () => {
     setDeleteConfirmation(false);
-    dispatch(deleteTransaction(id) as any);
+    deleteTransaction(id);
   };
 
   return (
@@ -52,7 +53,10 @@ export const TransactionListItem: FC<ITransactionListItem> = ({
         </ListItemData>
       )}
       {!deleteConfirmation ? (
-        <DeleteBtn onClick={() => setDeleteConfirmation(true)}>
+        <DeleteBtn
+          onClick={() => setDeleteConfirmation(true)}
+          disabled={isLoading}
+        >
           <img src={DeleteIcon} alt={translate(TEXT.buttons.delete)} />
         </DeleteBtn>
       ) : (

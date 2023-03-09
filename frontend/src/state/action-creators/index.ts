@@ -1,17 +1,66 @@
 import axios from 'axios';
-import { API, CreateTransactionInput, Transaction } from '../../types';
+import { Dispatch } from 'redux';
+import {
+  API,
+  AsyncProcessName,
+  CreateTransactionInput,
+  Status,
+  Transaction,
+} from '../../types';
+import { asyncProcessActions } from '../slices/async-process-slice';
 import { transactionActions } from '../slices/transaction-slice';
-import { uiActions } from '../slices/ui-slice';
+
+import { translate } from '../../translate/translate';
+import { TEXT } from '../../translate/translate-objects';
+
+const sendRequest = async () => {
+  const { data } = await axios.get(API.BASE_URL.concat(API.GET_TRANSACTIONS));
+  if (!data) {
+    throw new Error(
+      translate(TEXT.notifications.getTransactions.error.message)
+    );
+  }
+  return data;
+};
+
+const refetchTransactions = async (dispatch: Dispatch) => {
+  const data = await sendRequest();
+  const transactions = data as Transaction[];
+  dispatch(transactionActions.replaceTransactions(transactions));
+  dispatch(transactionActions.filterAndSearchTransactions());
+  dispatch(
+    asyncProcessActions.setAsyncprocess({
+      status: Status.SUCCESS,
+      processName: AsyncProcessName.CREATE_TRANSACTION,
+    })
+  );
+};
+
+export const getTransactions = () => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const data = await sendRequest();
+      const transactions = data as Transaction[];
+      dispatch(transactionActions.replaceTransactions(transactions));
+    } catch (error: any) {
+      dispatch(
+        asyncProcessActions.setAsyncprocess({
+          status: Status.ERROR,
+          processName: AsyncProcessName.GET_TRANSACTIONS,
+        })
+      );
+    }
+  };
+};
 
 export const createTransaction = (
   createTransactionInput: CreateTransactionInput
 ) => {
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     dispatch(
-      uiActions.showNotification({
-        status: 'loading',
-        title: 'New transaction',
-        message: 'Creating new transaction ...',
+      asyncProcessActions.setAsyncprocess({
+        status: Status.LOADING,
+        processName: AsyncProcessName.CREATE_TRANSACTION,
       })
     );
     try {
@@ -20,25 +69,20 @@ export const createTransaction = (
         createTransactionInput
       );
       const transaction = data as Transaction;
-      dispatch(
-        transactionActions.addTransaction({
-          transaction,
-        })
-      );
-      dispatch(
-        uiActions.showNotification({
-          status: 'success',
-          title: 'New transaction',
-          message: 'Transaction successfully created!',
-        })
-      );
-      dispatch(transactionActions.filterAndSearchTransactions());
+      if (transaction) {
+        await refetchTransactions(dispatch);
+        dispatch(
+          asyncProcessActions.setAsyncprocess({
+            status: Status.SUCCESS,
+            processName: AsyncProcessName.CREATE_TRANSACTION,
+          })
+        );
+      }
     } catch (error: any) {
       dispatch(
-        uiActions.showNotification({
-          status: 'error',
-          title: 'Error',
-          message: 'Error on create transaction!',
+        asyncProcessActions.setAsyncprocess({
+          status: Status.ERROR,
+          processName: AsyncProcessName.CREATE_TRANSACTION,
         })
       );
     }
@@ -46,12 +90,11 @@ export const createTransaction = (
 };
 
 export const deleteTransaction = (id: string) => {
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     dispatch(
-      uiActions.showNotification({
-        status: 'loading',
-        title: 'Delete transaction',
-        message: 'Deleting transaction ...',
+      asyncProcessActions.setAsyncprocess({
+        status: Status.LOADING,
+        processName: AsyncProcessName.DELETE_TRANSACTION,
       })
     );
     try {
@@ -59,69 +102,19 @@ export const deleteTransaction = (id: string) => {
         API.BASE_URL.concat(API.DELETE_TRANSACTION.replace(':id', id))
       );
       if (data.success) {
+        await refetchTransactions(dispatch);
         dispatch(
-          transactionActions.deleteTransaction({
-            id,
+          asyncProcessActions.setAsyncprocess({
+            status: Status.SUCCESS,
+            processName: AsyncProcessName.DELETE_TRANSACTION,
           })
         );
-        dispatch(
-          uiActions.showNotification({
-            status: 'success',
-            title: 'Delete transaction',
-            message: 'Transaction successfully deleted!',
-          })
-        );
-        dispatch(transactionActions.filterAndSearchTransactions());
       }
     } catch (error: any) {
       dispatch(
-        uiActions.showNotification({
-          status: 'error',
-          title: 'Error',
-          message: 'Error on deleting transaction!',
-        })
-      );
-    }
-  };
-};
-
-export const getTransactions = () => {
-  return async (dispatch: any) => {
-    dispatch(
-      uiActions.showNotification({
-        status: 'loading',
-        title: 'Get transactions',
-        message: 'Fetching data ...',
-      })
-    );
-    const sendRequest = async () => {
-      const response = await fetch(API.BASE_URL.concat(API.GET_TRANSACTIONS));
-      if (!response.ok) {
-        throw new Error('Fetching transaction data failed!');
-      }
-      return await response.json();
-    };
-    try {
-      const data = await sendRequest();
-      const transactions = data as Transaction[];
-      dispatch(
-        transactionActions.replaceTransactions({
-          transactions,
-        })
-      );
-      dispatch(
-        uiActions.showNotification({
-          status: 'success',
-          title: 'Transactions',
-          message: 'Fetching data is ready!',
-        })
-      );
-    } catch (error: any) {
-      dispatch(
-        uiActions.showNotification({
-          status: 'error',
-          title: 'Error!',
-          message: 'Fetching transactions failed!',
+        asyncProcessActions.setAsyncprocess({
+          status: Status.ERROR,
+          processName: AsyncProcessName.DELETE_TRANSACTION,
         })
       );
     }

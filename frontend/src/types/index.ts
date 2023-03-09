@@ -1,5 +1,5 @@
 export enum API {
-  GET_TRANSACTIONS = '/',
+  GET_TRANSACTIONS = '',
   CREATE_TRANSACTION = '/create',
   DELETE_TRANSACTION = '/delete/:id',
   BASE_URL = 'http://localhost:5100/api/transactions',
@@ -51,4 +51,15 @@ export interface INotification {
   status: Status;
   title: string;
   message: string;
+}
+
+export enum AsyncProcessName {
+  GET_TRANSACTIONS = 'getTransactions',
+  CREATE_TRANSACTION = 'createTransaction',
+  DELETE_TRANSACTION = 'deleteTransaction',
+}
+
+export interface IAsyncProcess {
+  status: Status | null;
+  processName: AsyncProcessName | null;
 }

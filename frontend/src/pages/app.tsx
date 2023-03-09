@@ -14,13 +14,17 @@ import { TransactionForm } from '../components/transaction-form/transaction-form
 import { TransactionList } from '../components/transaction-list/transaction-list';
 import { MostExpensiveTransaction } from '../components/transaction-statisctics/most-expensive-transaction';
 import { Top3Action } from '../components/transaction-statisctics/top-3-actions';
-import { getTransactions } from '../state/action-creators';
+import { useActions } from '../hooks/use-actions';
+import { useNotification } from '../hooks/use-notification.hook';
 
 export const App = () => {
   const dispatch = useDispatch();
 
+  const { getTransactions } = useActions();
+  useNotification();
+
   useEffect(() => {
-    dispatch(getTransactions() as any);
+    getTransactions();
   }, [dispatch]);
 
   return (

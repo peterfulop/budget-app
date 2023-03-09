@@ -27,22 +27,25 @@ export const NotificationBox = () => {
   };
 
   const hideNotification = () => {
-    setOnDisplay(false);
     setTimeout(() => {
-      dispatch(uiActions.showNotification({}));
+      setOnDisplay(false);
+      dispatch(uiActions.showNotification(null));
     }, 3000);
   };
 
   useEffect(() => {
-    if (notification?.message) {
+    if (notification?.status) {
+      const notificationBox = document.getElementById('notification-box');
+      notificationBox?.classList.remove('inactive');
       setOnDisplay(true);
-      setStatusColor(notification.status);
+      setStatusColor(notification?.status);
       hideNotification();
     }
-  }, [notification?.status]);
+  }, [notification]);
 
   return (
     <NotificationSection
+      id='notification-box'
       onClick={hideNotification}
       className={`${!onDispay ? 'inactive' : ''}`}
       style={{

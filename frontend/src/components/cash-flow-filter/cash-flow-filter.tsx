@@ -4,6 +4,7 @@ import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { transactionActions } from '../../state/slices/transaction-slice';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
+import { FilterState } from '../../types';
 import { FilterSection, SearchInput } from './cash-flow-filter.styled';
 import { FilterButtonGroup } from './filter-button-group';
 
@@ -22,9 +23,7 @@ export const CashflowFilter = () => {
     } else {
       input.classList.remove('active');
     }
-    dispatch(
-      transactionActions.setSearchKeyword({ searchKeyword: input.value })
-    );
+    dispatch(transactionActions.setSearchKeyword(input.value as FilterState));
   };
 
   return (

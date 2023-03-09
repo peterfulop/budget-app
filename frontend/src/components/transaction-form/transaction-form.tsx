@@ -11,12 +11,15 @@ import {
 } from './transaction-form.styled';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useDispatch } from 'react-redux';
-import { createTransaction } from '../../state/action-creators';
+import { useActions } from '../../hooks/use-actions';
+import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { transactionSchema } from './validation/transaction.schema';
 
 export const TransactionForm = () => {
-  const dispatch = useDispatch();
+  const { createTransaction, getTransactions } = useActions();
+
+  const { isLoading } = useTypedSelector((state) => state.asyncProcess);
+
   const {
     register,
     handleSubmit,
@@ -38,13 +41,13 @@ export const TransactionForm = () => {
 
   const onSubmitIncome = () => {
     const values = switchTransactionType(true);
-    dispatch(createTransaction(values) as any);
+    createTransaction(values);
     reset();
   };
 
   const onSubmitExpense = () => {
     const values = switchTransactionType(false);
-    dispatch(createTransaction(values) as any);
+    createTransaction(values);
     reset();
   };
 
@@ -60,7 +63,7 @@ export const TransactionForm = () => {
           type='text'
           tabIndex={1}
           placeholder={translate(TEXT.transactionForm.inputs.name.placeholder)}
-          // disabled={loading}
+          disabled={isLoading}
           style={{
             border: `${formStateErrors.name?.message ? '1px solid red' : ''}`,
           }}
@@ -76,7 +79,7 @@ export const TransactionForm = () => {
           <button
             type='button'
             id='submit-income'
-            // disabled={loading}
+            disabled={isLoading}
             onClick={handleSubmit(onSubmitIncome)}
           >
             {translate(TEXT.transactionForm.buttons.income)}
@@ -89,7 +92,7 @@ export const TransactionForm = () => {
               TEXT.transactionForm.inputs.amount.placeholder
             )}
             {...register('amount', { valueAsNumber: true })}
-            // disabled={loading}
+            disabled={isLoading}
             style={{
               border: `${
                 formStateErrors.amount?.message ? '1px solid red' : ''
@@ -99,7 +102,7 @@ export const TransactionForm = () => {
           <button
             type='button'
             id='submit-expense'
-            // disabled={loading}
+            disabled={isLoading}
             onClick={handleSubmit(onSubmitExpense)}
           >
             {translate(TEXT.transactionForm.buttons.expense)}
