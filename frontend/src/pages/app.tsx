@@ -5,51 +5,40 @@ import { CashFlowTrackings } from '../components/cash-flow-tracking/cash-trackin
 import { DougnutChart } from '../components/chart/chart';
 import {
   MainComponent,
-  Sidebar,
+  SectionLeft,
+  SectionRight,
 } from '../components/common-styled-components/pages.styled';
 import { Header } from '../components/header/header';
+import { Notification } from '../components/notification/notification';
 import { TransactionForm } from '../components/transaction-form/transaction-form';
 import { TransactionList } from '../components/transaction-list/transaction-list';
 import { MostExpensiveTransaction } from '../components/transaction-statisctics/most-expensive-transaction';
+import { Top3Action } from '../components/transaction-statisctics/top-3-actions';
 import { getTransactions } from '../state/action-creators';
 
-export const HomePage = () => {
+export const App = () => {
   const dispatch = useDispatch();
-  // const { transactions } = useTypedSelector((state) => state.transaction);
 
   useEffect(() => {
     dispatch(getTransactions() as any);
   }, [dispatch]);
 
-  // const {
-  //   filteredTransactions,
-  //   filterState,
-  //   setFilterState,
-  //   setSearchKeyword,
-  // } = useSearchAndFilterTransactions(transactions);
-
   return (
     <>
+      <Notification />
       <Header />
       <CashFlowTrackings />
       <MainComponent>
-        <Sidebar>
+        <SectionLeft>
           <TransactionForm />
           <DougnutChart />
-        </Sidebar>
-        <div style={{ flex: '2' }}>
-          <CashflowFilter
-          // filterState={filterState}
-          // setFilterState={setFilterState}
-          // setSearchKeyword={setSearchKeyword}
-          />
+        </SectionLeft>
+        <SectionRight>
+          <CashflowFilter />
           <MostExpensiveTransaction />
-          {/* <Top3Action
-            transactions={filteredTransactions}
-            filterState={filterState}
-          /> */}
+          <Top3Action />
           <TransactionList />
-        </div>
+        </SectionRight>
       </MainComponent>
     </>
   );

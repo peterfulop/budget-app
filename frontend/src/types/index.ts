@@ -17,7 +17,7 @@ export enum Status {
 }
 
 export enum Routes {
-  HOME = '/',
+  APP = '/',
   NOT_FOUND = '/*',
 }
 

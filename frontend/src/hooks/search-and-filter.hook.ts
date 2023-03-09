@@ -25,15 +25,11 @@ export const useSearchAndFilterTransactions = (transactions: Transaction[]) => {
         break;
     }
     const searchResult = searchByUserInput(filtered);
-    console.log('searchResult', searchResult);
-
     const preFiltered = searchResult ? searchResult : filtered;
-    console.log('preFiltered', preFiltered);
     const sortedTransactions = preFiltered.sort(
       (a: Transaction, b: Transaction) =>
         Number(b.createdAt) - Number(a.createdAt)
     );
-    console.log('sortedTransactions', sortedTransactions);
     setFilteredTransactions([...sortedTransactions]);
   };
 

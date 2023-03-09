@@ -45,7 +45,6 @@ export const TransactionForm = () => {
   const onSubmitExpense = () => {
     const values = switchTransactionType(false);
     dispatch(createTransaction(values) as any);
-
     reset();
   };
 

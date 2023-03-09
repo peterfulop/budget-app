@@ -10,7 +10,7 @@ export const NotFoundPage = () => {
     <NotFound>
       <h2>{translate(TEXT.pages.notFound.labels.title)}</h2>
       <h4>{translate(TEXT.pages.notFound.labels.content)}</h4>
-      <button onClick={() => navigate(Routes.HOME)}>
+      <button onClick={() => navigate(Routes.APP)}>
         {translate(TEXT.pages.home.name)}
       </button>
     </NotFound>

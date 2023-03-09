@@ -1,39 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { uiActions } from '../../state/slices/ui-slice';
 import { theme } from '../../theme';
-import { INotification, Status } from '../../types';
+import { Status } from '../../types';
+import { NotificationSection } from './notification.styled';
 
-const NotificationSection = styled.section({
-  position: 'absolute',
-  padding: '1rem',
-  top: 0,
-  display: 'flex',
-  gap: '5px',
-  right: 0,
-  margin: '10px',
-  borderRadius: '5px',
-  color: 'white',
-  fontFamily: theme.fonts.alegreyaSans,
-  opacity: 1,
-  height: 'auto',
-  cursor: 'pointer',
-  h4: {
-    textTransform: 'uppercase',
-  },
-  '&.inactive': {
-    opacity: 0,
-    overflow: 'hidden',
-    '-webkit-transition': '(opacity 2s ease-in)',
-    transition: 'opacity 2s ease-in',
-  },
-});
-
-export const Notification = (notification: INotification) => {
+export const Notification = () => {
+  const dispatch = useDispatch();
   const [color, setColor] = useState<string>('');
   const [onDispay, setOnDisplay] = useState<boolean>(true);
-  const dispatch = useDispatch();
+  const { notification } = useTypedSelector((state) => state.ui);
 
   const setStatusColor = (status: Status) => {
     switch (status) {
@@ -53,18 +30,18 @@ export const Notification = (notification: INotification) => {
     setOnDisplay(false);
     setTimeout(() => {
       dispatch(uiActions.showNotification({}));
-    }, 2000);
+    }, 3000);
   };
 
   useEffect(() => {
-    if (notification.message) {
+    if (notification?.message) {
       setOnDisplay(true);
       setStatusColor(notification.status);
     }
-    if (notification.status === Status.SUCCESS) {
+    if (notification?.status === Status.SUCCESS) {
       hideNotification();
     }
-  }, [notification.status]);
+  }, [notification?.status]);
 
   return (
     <NotificationSection
@@ -74,8 +51,8 @@ export const Notification = (notification: INotification) => {
         backgroundColor: color,
       }}
     >
-      <h4>{notification.title}</h4>
-      <p>{notification.message}</p>
+      <h4>{notification?.title}</h4>
+      <p>{notification?.message}</p>
     </NotificationSection>
   );
 };
