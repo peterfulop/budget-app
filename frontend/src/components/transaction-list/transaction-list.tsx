@@ -1,29 +1,13 @@
-import { FC } from 'react';
+import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
 import { TransactionListItem } from './transaction-list-tem';
 import { List, ListItem } from './transaction-list.styled';
 
-interface ITransactionList extends ITransactions {
-  transactions: Transaction[];
-  setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
-}
-
-export const TransactionList: FC<ITransactionList> = ({
-  transactions,
-  refetch,
-  setSearchKeyword,
-}) => {
-  const { success, errors, loading, deleteTransaction, setErrors } =
-    useDeleteTransaction();
-
-  useEffect(() => {
-    if (!loading && success) {
-      refetch();
-      setSearchKeyword('');
-    }
-  }, [success]);
-
+export const TransactionList = () => {
+  const { filteredTransactions } = useTypedSelector(
+    (state) => state.transaction
+  );
   return (
     <List>
       {filteredTransactions?.length ? (
