@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { FilterState, Transaction } from '../../types';
+import { FilterState } from '../../types/enums';
+import { Transaction } from '../../types/interfaces';
 import {
   IReplaceTransactionsAction,
   ISetFilterStateAction,

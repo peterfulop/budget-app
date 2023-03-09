@@ -3,7 +3,7 @@ import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
 import { Currency } from '../../translate/translate.scema';
-import { Transaction } from '../../types';
+import { Transaction } from '../../types/interfaces';
 import { thousandSeparator } from '../../utils/thousand-separator';
 import { Top3List, TopListContainer } from './statistic.styled';
 

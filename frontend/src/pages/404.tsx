@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { NotFound } from '../components/common-styled-components/not-found.styled';
 import { translate } from '../translate/translate';
 import { TEXT } from '../translate/translate-objects';
-import { Routes } from '../types';
+import { Routes } from '../types/enums';
 
 export const NotFoundPage = () => {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Transaction } from '../types';
+import { Transaction } from '../types/interfaces';
 import { useTypedSelector } from './use-typed-selector';
 
 export const useCashflowTracking = () => {
@@ -25,7 +25,7 @@ export const useCashflowTracking = () => {
     }
   };
   useEffect(() => {
-    if (transactions?.length > 0) {
+    if (transactions) {
       const totalBudget = sumByCondition({ transactions, isIncome: true });
       const totalSpents = sumByCondition({ transactions, isIncome: false });
       setBudget(totalBudget);

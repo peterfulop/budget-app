@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
-import { CreateTransactionInput } from '../../types';
+import { CreateTransactionInput } from '../../types/interfaces';
 import {
   AmountInput,
   AmountInputBox,

@@ -1,17 +1,12 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
-import {
-  API,
-  AsyncProcessName,
-  CreateTransactionInput,
-  Status,
-  Transaction,
-} from '../../types';
+import { CreateTransactionInput, Transaction } from '../../types/interfaces';
 import { asyncProcessActions } from '../slices/async-process-slice';
 import { transactionActions } from '../slices/transaction-slice';
 
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
+import { API, AsyncProcessName, Status } from '../../types/enums';
 
 const sendRequest = async () => {
   const { data } = await axios.get(API.BASE_URL.concat(API.GET_TRANSACTIONS));

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { uiActions } from '../../state/slices/ui-slice';
 import { theme } from '../../theme';
-import { Status } from '../../types';
+import { Status } from '../../types/enums';
 import { NotificationSection } from './notification.styled';
 
 export const NotificationBox = () => {

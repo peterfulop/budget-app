@@ -1,4 +1,5 @@
-import { FilterState, Transaction } from '../../types';
+import { FilterState } from '../../types/enums';
+import { Transaction } from '../../types/interfaces';
 
 export interface IReplaceTransactionsAction {
   payload: Transaction[];

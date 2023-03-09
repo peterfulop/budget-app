@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { AsyncProcessName, Status } from '../../types';
+import { AsyncProcessName, Status } from '../../types/enums';
 import { ISetAsyncAction } from '../actions/async-process-actions';
 
 interface IUiSliceInitialState {

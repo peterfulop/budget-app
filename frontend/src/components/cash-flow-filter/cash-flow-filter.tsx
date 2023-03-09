@@ -4,7 +4,7 @@ import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { transactionActions } from '../../state/slices/transaction-slice';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
-import { FilterState } from '../../types';
+import { FilterState } from '../../types/enums';
 import { FilterSection, SearchInput } from './cash-flow-filter.styled';
 import { FilterButtonGroup } from './filter-button-group';
 

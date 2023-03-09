@@ -27,39 +27,8 @@ export enum FilterState {
   EXPENSES = 'EXPENSES',
 }
 
-export type Transaction = {
-  id: string;
-  name: string;
-  amount: number;
-  income: boolean;
-  createdAt: string;
-};
-
-export type CreateTransactionInput = {
-  name: string;
-  amount: number;
-  income: boolean;
-};
-
-export interface IRoute {
-  path: string;
-  name: string;
-  component: any;
-}
-
-export interface INotification {
-  status: Status;
-  title: string;
-  message: string;
-}
-
 export enum AsyncProcessName {
   GET_TRANSACTIONS = 'getTransactions',
   CREATE_TRANSACTION = 'createTransaction',
   DELETE_TRANSACTION = 'deleteTransaction',
-}
-
-export interface IAsyncProcess {
-  status: Status | null;
-  processName: AsyncProcessName | null;
 }

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { INotification } from '../../types';
+import { INotification } from '../../types/interfaces';
 import { INotificationAction } from '../actions/ui-actions';
 
 interface IUiSliceInitialState {
