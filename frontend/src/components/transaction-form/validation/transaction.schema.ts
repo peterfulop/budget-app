@@ -20,7 +20,7 @@ export const transactionSchema = yup.object().shape({
       translate(TEXT.transactionForm.validationErrors.amountOnlyPositiveNumber)
     )
     .integer(translate(TEXT.transactionForm.validationErrors.amountOnlyInteger))
-    .max(Number.MAX_SAFE_INTEGER, `Max: ${Number.MAX_SAFE_INTEGER}`)
+    .max(2147483647, `Max: ${'2.147.483.647'}`)
     .required(translate(TEXT.transactionForm.validationErrors.amountRequired))
     .typeError(
       translate(TEXT.transactionForm.validationErrors.amountOnlyPositiveNumber)
