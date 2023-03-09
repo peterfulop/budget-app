@@ -9,7 +9,7 @@ import {
   SectionRight,
 } from '../components/common-styled-components/pages.styled';
 import { Header } from '../components/header/header';
-import { Notification } from '../components/notification/notification';
+import { NotificationBox } from '../components/notification/notification';
 import { TransactionForm } from '../components/transaction-form/transaction-form';
 import { TransactionList } from '../components/transaction-list/transaction-list';
 import { MostExpensiveTransaction } from '../components/transaction-statisctics/most-expensive-transaction';
@@ -25,7 +25,7 @@ export const App = () => {
 
   return (
     <>
-      <Notification />
+      <NotificationBox />
       <Header />
       <CashFlowTrackings />
       <MainComponent>

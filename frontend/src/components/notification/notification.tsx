@@ -6,7 +6,7 @@ import { theme } from '../../theme';
 import { Status } from '../../types';
 import { NotificationSection } from './notification.styled';
 
-export const Notification = () => {
+export const NotificationBox = () => {
   const dispatch = useDispatch();
   const [color, setColor] = useState<string>('');
   const [onDispay, setOnDisplay] = useState<boolean>(true);
@@ -37,8 +37,6 @@ export const Notification = () => {
     if (notification?.message) {
       setOnDisplay(true);
       setStatusColor(notification.status);
-    }
-    if (notification?.status === Status.SUCCESS) {
       hideNotification();
     }
   }, [notification?.status]);

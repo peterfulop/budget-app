@@ -8,8 +8,8 @@ import { store } from './state/store';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>
-    <BrowserRouter>
-      <MainApp>
+    <MainApp>
+      <BrowserRouter>
         <Routes>
           {routes.map((route, index) => {
             return (
@@ -21,7 +21,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             );
           })}
         </Routes>
-      </MainApp>
-    </BrowserRouter>
+      </BrowserRouter>
+    </MainApp>
   </Provider>
 );
