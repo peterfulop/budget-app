@@ -3,21 +3,11 @@ import { useCashflowTracking } from '../../hooks/cashflow-tracking.hook';
 import { theme } from '../../theme';
 import { translate } from '../../translate/translate';
 import { TEXT } from '../../translate/translate-objects';
-import { Transaction } from '../../types';
 import { TrackingContainer } from './cash-flow-tracking.styled';
 import { CashFlowTrackingItem } from './cash-tracking-item';
 
-interface CashFlowTrackingProps {
-  transactions: Transaction[];
-}
-
-export const CashFlowTrackings: FC<CashFlowTrackingProps> = ({
-  transactions,
-}) => {
-  const { budget, spentSoFar, remaining } = useCashflowTracking({
-    transactions,
-  });
-
+export const CashFlowTrackings: FC = () => {
+  const { budget, spentSoFar, remaining } = useCashflowTracking();
   return (
     <TrackingContainer>
       <CashFlowTrackingItem

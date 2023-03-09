@@ -117,4 +117,48 @@ export const TEXT: Text = {
       ENG: 'of budget spent',
     },
   },
+  notifications: {
+    getTransactions: {
+      loading: {
+        title: { ENG: 'transactions' },
+        message: { ENG: 'Loading transactions ...' },
+      },
+      success: {
+        title: { ENG: 'transactions' },
+        message: { ENG: 'Successfully loaded transactions!' },
+      },
+      error: {
+        title: { ENG: 'Error!' },
+        message: { ENG: 'Loading transactions failed!' },
+      },
+    },
+    createTransaction: {
+      loading: {
+        title: { ENG: 'transaction' },
+        message: { ENG: 'Creating transaction ...' },
+      },
+      success: {
+        title: { ENG: 'transaction' },
+        message: { ENG: 'Successfully created transaction!' },
+      },
+      error: {
+        title: { ENG: 'Error!' },
+        message: { ENG: 'Creating transaction failed!' },
+      },
+    },
+    deleteTransaction: {
+      loading: {
+        title: { ENG: 'transaction' },
+        message: { ENG: 'Deleting transaction ...' },
+      },
+      success: {
+        title: { ENG: 'transaction' },
+        message: { ENG: 'Successfully deleted transaction!' },
+      },
+      error: {
+        title: { ENG: 'Error!' },
+        message: { ENG: 'Deleting transaction failed!' },
+      },
+    },
+  },
 };

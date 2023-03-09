@@ -1,12 +1,13 @@
 import { NotFoundPage } from '../pages/404';
-import { HomePage } from '../pages/home';
-import { IRoute, Routes } from '../types';
+import { App } from '../pages/app';
+import { Routes } from '../types/enums';
+import { IRoute } from '../types/interfaces';
 
 const mainRoutes: IRoute[] = [
   {
-    path: Routes.HOME,
-    component: HomePage,
-    name: 'Home',
+    path: Routes.APP,
+    component: App,
+    name: 'App',
   },
   {
     path: Routes.NOT_FOUND,

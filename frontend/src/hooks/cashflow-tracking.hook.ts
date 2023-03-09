@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Transaction } from '../types';
+import { Transaction } from '../types/interfaces';
+import { useTypedSelector } from './use-typed-selector';
 
-export const useCashflowTracking = (props: { transactions: Transaction[] }) => {
-  const { transactions } = props;
+export const useCashflowTracking = () => {
+  const { transactions } = useTypedSelector((state) => state.transaction);
 
   const [budget, setBudget] = useState<number>(0);
   const [spentSoFar, setSpentSoFar] = useState<number>(0);
@@ -24,7 +25,7 @@ export const useCashflowTracking = (props: { transactions: Transaction[] }) => {
     }
   };
   useEffect(() => {
-    if (transactions?.length > 0) {
+    if (transactions) {
       const totalBudget = sumByCondition({ transactions, isIncome: true });
       const totalSpents = sumByCondition({ transactions, isIncome: false });
       setBudget(totalBudget);
