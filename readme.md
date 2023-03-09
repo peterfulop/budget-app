@@ -12,6 +12,7 @@ docker compose up
 
 ```sh
 cd server
+
 yarn
 ```
 
