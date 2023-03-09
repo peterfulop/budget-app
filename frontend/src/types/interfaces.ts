@@ -1,18 +1,18 @@
 import { AsyncProcessName, Status } from './enums';
 
-export interface Transaction {
+export type Transaction = {
   id: string;
   name: string;
   amount: number;
   income: boolean;
   createdAt: string;
-}
+};
 
-export interface CreateTransactionInput {
+export type CreateTransactionInput = {
   name: string;
   amount: number;
   income: boolean;
-}
+};
 
 export interface IRoute {
   path: string;
